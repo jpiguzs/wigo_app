@@ -1,0 +1,11 @@
+{
+  "name": "vel_mobil",
+  "version": "0.0.1",
+  "description": "prorecto para llevar control interno de velservice",
+  "author": "jpiguzs <josepiguz@gmail.com>",
+  "private": true,
+  "dependencies": {
+    "@capacitor/cli": "^2.0.0",
+    "@capacitor/core": "^2.0.0"
+  }
+}

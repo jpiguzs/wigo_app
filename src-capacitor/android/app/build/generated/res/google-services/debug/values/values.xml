@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">291626007879-32smur38nfmo4q2eh1uvcvgv11dl436q.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">291626007879</string>
+    <string name="google_api_key" translatable="false">AIzaSyCAIJPNchAPdagGnXV1tRSDCn3DOD9hRpU</string>
+    <string name="google_app_id" translatable="false">1:291626007879:android:cde6216d99808dd9c5a062</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCAIJPNchAPdagGnXV1tRSDCn3DOD9hRpU</string>
+    <string name="google_storage_bucket" translatable="false">velservise-ef61f.appspot.com</string>
+    <string name="project_id" translatable="false">velservise-ef61f</string>
+</resources>

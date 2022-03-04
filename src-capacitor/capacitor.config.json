@@ -1,0 +1,7 @@
+{
+  "appId": "com.velservice.ve",
+  "appName": "vwlservice",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www"
+}
