@@ -1,0 +1,5 @@
+com/velservice/ve/BuildConfig.java
+ com.velservice.ve.BuildConfig
+com/velservice/ve/MainActivity.java
+ com.velservice.ve.MainActivity
+ com.velservice.ve.MainActivity$1

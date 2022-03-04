@@ -1,0 +1,4 @@
+capacitor/android/plugins/BuildConfig.java
+ capacitor.android.plugins.BuildConfig
+cordova/plugins/screenorientation/CDVOrientation.java
+ cordova.plugins.screenorientation.CDVOrientation
