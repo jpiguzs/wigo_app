@@ -1,14 +1,14 @@
 <template>
-  <q-page padding>
+  <q-page class="text-primary" padding>
     <!-- content -->
-    <budget/>
+    <home />
   </q-page>
 </template>
 
 <script>
-import budget from 'components/budget/Index'
+import home from 'components/home/Index'
 export default {
   // name: 'PageName',
-  components:{budget}
+  components:{home}
 }
 </script>

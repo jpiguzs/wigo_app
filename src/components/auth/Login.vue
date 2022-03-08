@@ -1,20 +1,20 @@
 <template>
   <div>
-      <q-card class="aboo_card glass full-width border-glass-1">
-          <q-card-section class="flex flex-center">
+      <q-card class="auth__card row ">
+          <q-card-section class="col-12 flex flex-center text-h4">
                 Login
 
           </q-card-section>
-          <q-card-section  >
-            <q-form class="aboo_form q-gutter-sm" @submit="login">
+          <q-card-section class="col-12 " >
+            <q-form class="q-gutter-sm" @submit="login">
             <div>
-                <q-input outlined dark v-model="email" type="email"  label="Correo" label-color="white" />
+                <q-input outlined  v-model="email" type="email"  label="Correo" />
             </div>    
             <div>
-                <q-input outlined dark type="password"  v-model="password" label="Contraseña" label-color="white" />
+                <q-input outlined  type="password"  v-model="password" label="Contraseña"  />
             </div>
             <div>
-              <q-btn class="bg-green-9 full-width" label="iniciar sesion"  type="submit" @click="$router.push('/menu')" />
+              <q-btn color="primary" class=" full-width" label="iniciar sesion"  type="submit" @click="$router.push('/menu')" />
             </div>
             </q-form>
           </q-card-section>

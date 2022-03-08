@@ -1,14 +1,14 @@
 <template>
   <q-page padding>
     <!-- content -->
-    <budget/>
+    <auth/>
   </q-page>
 </template>
 
 <script>
-import budget from 'components/budget/Index'
+import auth from 'components/auth/Index'
 export default {
   // name: 'PageName',
-  components:{budget}
+  components:{auth}
 }
 </script>

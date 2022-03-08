@@ -2,7 +2,7 @@
   <div>
     <q-card>
         <q-card-section>
-            Creacion de presupesto
+            Creacion de presupuesto
         </q-card-section>
         <div v-show="step === 1">
         <q-card-section>

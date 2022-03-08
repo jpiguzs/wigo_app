@@ -49,6 +49,7 @@ export default {
         console.log(point)
         total =total + point.total;
       })
+      total  = total + (1*this.delivery_points.length)
       let data = {
         total,
         delivery_points:this.delivery_points

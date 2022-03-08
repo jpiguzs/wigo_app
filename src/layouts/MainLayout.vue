@@ -1,16 +1,21 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     
- <q-toolbar class="bg-primary text-white">
+ <q-toolbar class="bg-white text-primary">
       <q-btn flat round dense icon="menu" class="q-mr-sm" />
       <q-avatar>
-        <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
+        <img
+      src="/wigo_logo.jpg"
+      alt="Aboonda logo"
+      style="width:100px"
+    />
       </q-avatar>
 
-      <q-toolbar-title>Quasar Framework</q-toolbar-title>
-
-      <q-btn flat round dense icon="whatshot" />
-    </q-toolbar>ss
+      <q-toolbar-title></q-toolbar-title>
+      <q-btn flat   label="login" @click="auth_to(1)" />
+      <q-btn flat  label="registro" @click="auth_to(2)" />
+      <q-btn flat round dense icon="home" @click="$router.push('/')" />
+    </q-toolbar>
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -72,6 +77,11 @@ export default {
     return {
       leftDrawerOpen: false,
       essentialLinks: linksData
+    }
+  },
+  methods: {
+    auth_to(action){
+      this.$router.push({name:action ===1 ? 'login' : "register"  , params:{action:action}})
     }
   }
 }
