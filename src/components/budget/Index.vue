@@ -6,7 +6,7 @@
         </q-card-section>
         <div v-show="step === 1">
         <q-card-section>
-            <q-input v-model="boxes_count" label="Tipos de cajas" />
+            <q-input outlined v-model="boxes_count" label="Tipos de cajas" />
         </q-card-section>
         <q-card-section v-if="boxes.length > 0">
             <div class="row">
