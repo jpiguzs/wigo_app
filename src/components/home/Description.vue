@@ -1,7 +1,13 @@
 <template>
   <div class="row flex justify-center items-center q-pa-xl q-gutter-xl">
-    <div class=" col-12 text-h4 text-justify text-bold ">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+    <div class=" col-12 flex justify-center items-center ">
+       <q-avatar  size="300px">
+        <img
+      src="/wigo_logo.jpg"
+      alt="Aboonda logo"
+      
+    />
+      </q-avatar>
     </div>
     <div class=" col-12  text-justify ">
        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum

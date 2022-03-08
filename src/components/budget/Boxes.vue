@@ -4,16 +4,16 @@
           tipo de caja {{box.id + 1}}
       </div>
     <div>
-      <q-input v-model="quantity" label="cantidad" v-on:keyup="GetTotal" />
+      <q-input outlined v-model="quantity" label="cantidad" v-on:keyup="GetTotal" />
     </div>
     <div>
-      <q-input v-model="box.height" label="altura" v-on:keyup="GetTotal"  />
+      <q-input outlined v-model="box.height" label="altura (cm)" v-on:keyup="GetTotal"  />
     </div>
     <div>
-      <q-input v-model="box.width" label="anchura" v-on:keyup="GetTotal" />
+      <q-input outlined v-model="box.width" label="anchura (cm)" v-on:keyup="GetTotal" />
     </div>
     <div>
-      <q-input v-model="box.length" label="largo" v-on:keyup="GetTotal"  />
+      <q-input outlined v-model="box.length" label="largo (cm)" v-on:keyup="GetTotal"  />
     </div>
   </div>
 </template>

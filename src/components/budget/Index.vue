@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <q-card>
+  <div class="q-mt-xl flex flex-center">
+    <q-card class="auth__card">
         <q-card-section>
             Creacion de presupuesto
         </q-card-section>
@@ -13,15 +13,15 @@
                 <boxes v-for="(box, index) in boxes" class="col-md-4 col-sm-12" :box="box" :key="index" />
             </div>
         
-          <div>
-            total de cajas : {{total_boxes}}
+          <div class="q-ml-sm text-h4">
+            
           </div>
           <q-btn @click="getTotalBoxes()" label="calcular total por cajas" />
         </q-card-section>
         </div>
         <div v-show="step===2">
-        <div>
-            total de cajas : {{total_boxes}}$
+        <div class="q-ml-sm text-h4">
+            total  : {{total_boxes}}$
           </div>
         <q-card-section>
             <pickupp />
@@ -29,7 +29,7 @@
        
         </div>
         <div v-show="step===3">
-        <div>
+        <div class="q-ml-sm text-h4">
             total a pagar : {{total}}$
           </div>
             <q-btn @click="step=2" label="volver" />

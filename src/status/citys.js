@@ -42,7 +42,7 @@ export const city = [
     ],
     },
     {
-        name:'lecherias',
+        name:'lecheria',
         code:'lech',
         ref:[{
             code:"bar",
