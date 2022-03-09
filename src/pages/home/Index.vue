@@ -1,5 +1,5 @@
 <template>
-  <q-page class="text-primary" padding>
+  <q-page class="text-primary" >
     <!-- content -->
     <home />
   </q-page>

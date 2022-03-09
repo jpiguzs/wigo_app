@@ -44,7 +44,12 @@ module.exports = function (/* ctx */) {
     // Full list of options: https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       vueRouterMode: 'history', // available values: 'hash', 'history'
-
+      env: {
+        API: "http://api.wigo.services/api"
+        //API: "http://velservice.aboonda.com/api"
+      
+        //API: "http://localhost:8000/api"
+      },
       // transpile: false,
 
       // Add dependencies for transpiling with Babel (Array of string/regex)

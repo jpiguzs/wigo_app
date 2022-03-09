@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     
- <q-toolbar class="bg-white text-primary">
+ <q-toolbar class="bg-white text-primary z-top">
       <q-btn flat round dense icon="menu" class="q-mr-sm" />
       <q-avatar>
         <img
@@ -12,8 +12,17 @@
       </q-avatar>
 
       <q-toolbar-title></q-toolbar-title>
-      <q-btn flat   label="login" @click="auth_to(1)" />
-      <q-btn flat  label="registro" @click="auth_to(2)" />
+        <div v-if="!user" >
+             <q-btn flat   label="login" @click="auth_to(1)" />
+              <q-btn flat  label="registro" @click="auth_to(2)" />
+     
+        </div>
+        <div v-if="user" >
+          <div class="text-uppercase">{{user.name}}</div>
+     
+        </div>
+       
+
       <q-btn flat round dense icon="home" @click="$router.push('/')" />
     </q-toolbar>
     <q-page-container>
@@ -78,6 +87,13 @@ export default {
       leftDrawerOpen: false,
       essentialLinks: linksData
     }
+  },
+  computed :{
+      user :{
+        get(){
+         return this.$store.getters['auth/user'];
+        }
+      }
   },
   methods: {
     auth_to(action){

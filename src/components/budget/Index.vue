@@ -20,9 +20,19 @@
         </q-card-section>
         </div>
         <div v-show="step===2">
-        <div class="q-ml-sm text-h4">
-            total  : {{total_boxes}}$
+        <div class="q-ml-sm ">
+        <div class="text-h4">
+          total  : {{total_boxes}}$
+        </div>
+            <div>
+            Porcentaje de ocupacion: {{percentage}}%
+            </div>
+            <div>
+            Cantidad de camiones estimados: {{truck_quantity}}
+            </div>
+            
           </div>
+            <q-btn @click="step=1" label="volver" />
         <q-card-section>
             <pickupp />
         </q-card-section>
@@ -33,7 +43,7 @@
             total a pagar : {{total}}$
           </div>
             <q-btn @click="step=2" label="volver" />
-                <q-btn color="green" @click="step=4" label="hacer pedido" />
+                <q-btn color="green" @click="set_order()" label="hacer pedido" />
         <q-card-section>
          
         </q-card-section>
@@ -43,14 +53,38 @@
         <div>
             total a pagar : {{total}}$
           </div>
-          <contact :boxes="boxes" :total="total" :delivery_points="delivery_points" />
-            <q-btn @click="step=2" label="volver" />
+          <div v-if="!user">
+              <div v-if="actions===1">
+                <login />
+                <q-btn  color="primary" label="registro" @click="actions=2" /> 
+              </div>
+              <div v-if="actions===2">
+                <resgister />
+                <q-btn  color="primary" label="login" @click="actions=1" /> 
+              </div>
+          </div v-if="user">
+            <q-btn color="green" @click="set_order()" label="hacer pedido" />
+             <q-btn @click="step=2" label="volver" />
+          <div>
+          
+          </div>
+          
+           
               
-        <q-card-section>
-         
-        </q-card-section>
+        
        
         </div>
+        <q-card-section>
+          <div v-show="step===5">
+            <div class="flex flex-center">
+                  <q-icon name="done" color="teal" size="4.4em" />
+                  <div class="text-h6">
+                      hemos recibido su cotizacion de forma exitosa,
+                      proto nos comunicaremos con usted, gracias por su preferencias
+                  </div>
+            </div>
+          </div>
+        </q-card-section>
     </q-card>
   </div>
 </template>
@@ -59,6 +93,8 @@
 import  boxes from './Boxes'
 import pickupp from './Pickupp'
 import contact from './Contact'
+import login from 'components/auth/Login'
+import resgister from 'components/auth/Register'
 export default {
   // name: 'ComponentName',
   data () {
@@ -69,10 +105,20 @@ export default {
       boxes_count:0,
       total_boxes:0,
       step:1,
-      delivery_points:[]
+      delivery_points:[],
+      actions:1,
+      percentage:0,
+      truck_quantity:0,
     }
   },
-  components:{boxes,pickupp, contact },
+  computed:{
+    user:{
+      get(){
+        return this.$store.getters['auth/user']
+      }
+    }
+  },
+  components:{boxes,pickupp, contact, login, resgister },
   watch:{
     boxes_count(newVal){
       this.boxes = [];
@@ -83,7 +129,8 @@ export default {
           height:null,
           width:null,
           length:null,
-          total:0
+          total:0,
+          validate: false,
         }
         this.boxes.push(data)
       }
@@ -93,16 +140,44 @@ export default {
   methods: {
     getTotalBoxes(){
       let total = 0;
+      let index = this.boxes.findIndex(box =>{
+       return box.validate === false;
+      })
+      if(index!=-1){
+        this.$q.notify({
+          message: "debe llenar todos las medidas de la caja",
+          color: "red",
+          position: "right",
+        });
+        return;
+      }
       this.boxes.forEach(box=>{
         total = total + box.total;
       })
       console.log(total)
+      this.percentage = (total*100)/400;
       this.total_boxes = total > 140 ? total * 0.05 : 7;
+      this.total_boxes = this.total_boxes.toFixed(2);
+      this.percentage = this.percentage.toFixed(2);
+      this.truck_quantity = this.percentage/100 < 0 ? this.percentage/100 : 1 ;
       this.step = 2;
     },
     getTotal(){
-      this.total = this.total_boxes + this.total_pick;
+      this.total = parseFloat(this.total_boxes) + parseFloat (this.total_pick.toFixed(2));
+      console.log(this.total_pick)
       this.step = 3;
+    },
+    set_order(){
+      if(!this.user){
+        this.step= 4
+      }else{
+        axios.post("budget/register", {total:this.total, delivery_points:this.delivery_points, boxes:this.boxes}).then(res => {
+          console.log(res.data)
+          this.step = 5;
+        }).catch(err=>{
+
+        })
+      }
     }
   },
   mounted() {

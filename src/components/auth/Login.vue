@@ -14,7 +14,7 @@
                 <q-input outlined  type="password"  v-model="password" label="Contraseña"  />
             </div>
             <div>
-              <q-btn color="primary" class=" full-width" label="iniciar sesion"  type="submit" @click="$router.push('/menu')" />
+              <q-btn color="primary" class=" full-width" label="iniciar sesion"  type="submit"  />
             </div>
             </q-form>
           </q-card-section>
@@ -42,11 +42,10 @@ export default {
                 password
             }).then(res => {
                 let user = res.data.user;
-                if(user.rol_id===2){
-                     this.$router.push('/support')
-                } if(user.rol_id===1){
-                  this.$router.push('/main')
-                }
+                this.$route.name=== "login"? 
+                this.$router.push('/') 
+                :
+                this.$emit('register', true);
                
                 /*this.$root.$emit('hide_dialog');
                 /this.get_notifications(res.data.user.id);
