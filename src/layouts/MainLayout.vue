@@ -12,6 +12,7 @@
       </q-avatar>
 
       <q-toolbar-title></q-toolbar-title>
+       <q-btn flat   label="cotizacion" @click="$router.push('/budget')" />
         <div v-if="!user" >
              <q-btn flat   label="login" @click="auth_to(1)" />
               <q-btn flat  label="registro" @click="auth_to(2)" />
