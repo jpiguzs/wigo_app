@@ -25,10 +25,10 @@
           total  : {{total_boxes}}$
         </div>
             <div>
-            Porcentaje de ocupacion: {{percentage}}%
+           
             </div>
             <div>
-            Cantidad de camiones estimados: {{truck_quantity}}
+            Cantidad pickupp: {{truck_quantity}}
             </div>
             
           </div>
@@ -40,8 +40,11 @@
         </div>
         <div v-show="step===3">
         <div class="q-ml-sm text-h4">
-            total a pagar : {{total}}$
+            Monto a pagar : {{total}}$
           </div>
+           <div>
+                <q-checkbox v-model="express" label="hacer pedido Express" color="teal" />
+            </div>
             <q-btn @click="step=2" label="volver" />
                 <q-btn color="green" @click="set_order()" label="hacer pedido" />
         <q-card-section>
@@ -51,7 +54,10 @@
         </div>
         <div v-show="step===4">
         <div>
-            total a pagar : {{total}}$
+            Monto  a pagar : {{total}}$
+            <div>
+                <q-checkbox v-model="express" label="hacer pedido Express" color="teal" />
+            </div>
           </div>
           <div v-if="!user">
               <div v-if="actions===1">
@@ -109,6 +115,7 @@ export default {
       actions:1,
       percentage:0,
       truck_quantity:0,
+      express: false,
     }
   },
   computed:{
@@ -120,6 +127,13 @@ export default {
   },
   components:{boxes,pickupp, contact, login, resgister },
   watch:{
+    express(newVal){
+      if(newVal){
+        this.total = this.total + 7;
+      }else{
+       this.total = this.total -7;
+      }
+    },
     boxes_count(newVal){
       this.boxes = [];
       console.log(newVal)
@@ -135,7 +149,8 @@ export default {
         this.boxes.push(data)
       }
       console.log(this.boxes)
-    }
+    },
+    
   },
   methods: {
     getTotalBoxes(){

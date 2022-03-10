@@ -1,6 +1,6 @@
 <template>
   <div class="row flex justify-center items-center q-pa-xl q-gutter-xl">
-    <div class=" col-12 flex justify-center items-center ">
+    <div class=" col-12 flex justify-center items-center "  v-if="!$q.platform.is.mobile">
        <q-avatar  size="300px">
         <img
       src="/wigo_logo.jpg"
@@ -15,7 +15,7 @@
        
     </div>
     <div class=" col-12 ">
-      <q-btn color="primary" label="hacer cotizacion" class="full-width"  @click="$router.push('/budget')" />
+      <q-btn color="primary" label="cotizar" class="full-width"  @click="$router.push('/budget')" />
     </div>
   </div>
 </template>

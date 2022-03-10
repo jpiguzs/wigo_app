@@ -13,6 +13,7 @@
 
       <q-toolbar-title></q-toolbar-title>
        <q-btn flat   label="cotizacion" @click="$router.push('/budget')" />
+      
         <div v-if="!user" >
              <q-btn flat   label="login" @click="auth_to(1)" />
               <q-btn flat  label="registro" @click="auth_to(2)" />
@@ -20,8 +21,9 @@
         </div>
         <div v-if="user" >
           <div class="text-uppercase">{{user.name}}</div>
-     
+            
         </div>
+         <q-btn v-if="user" flat label="salir" @click="logout()"/>
        
 
       <q-btn flat round dense icon="home" @click="$router.push('/')" />
@@ -99,7 +101,12 @@ export default {
   methods: {
     auth_to(action){
       this.$router.push({name:action ===1 ? 'login' : "register"  , params:{action:action}})
-    }
+    },
+    logout(){
+      this.$store.commit('auth/log_out')
+      this.$router.push('/')
+       this.$store.commit('auth/set_expire_token', false)
+    },
   }
 }
 </script>
