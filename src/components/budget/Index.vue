@@ -2,7 +2,7 @@
   <div class="q-mt-xl flex flex-center">
     <q-card class="auth__card">
         <q-card-section>
-            Creacion de presupuesto
+           Cotizaciòn
         </q-card-section>
         <div v-show="step === 1">
         <q-card-section>
@@ -28,7 +28,7 @@
            
             </div>
             <div>
-            Cantidad pickupp: {{truck_quantity}}
+            Unidades: {{truck_quantity}}
             </div>
             
           </div>
@@ -45,6 +45,7 @@
            <div>
                 <q-checkbox v-model="express" label="hacer pedido Express" color="teal" />
             </div>
+              
             <q-btn @click="step=2" label="volver" />
                 <q-btn color="green" @click="set_order()" label="hacer pedido" />
         <q-card-section>
@@ -58,7 +59,47 @@
             <div>
                 <q-checkbox v-model="express" label="hacer pedido Express" color="teal" />
             </div>
+            <q-separator/>
+            <div class="q-gutter-sm row">
+                <div class="text-center col-12 text-uppercase">
+                    Metodos de pago
+                </div>
+                  <q-radio class="col-12" v-model="payment_method" :val="1"  label="binance" >
+                      <q-avatar>
+                        <img
+                      src="/binance.png"
+                      alt="Aboonda logo"
+                      style="width:20px; height: 20px"
+                    />
+                  </q-avatar>
+                  </q-radio>
+                  <q-radio class="col-12" v-model="payment_method" :val="2" label="PayPal" >
+                   <q-avatar>
+                        <img
+                      src="/paypal.jpeg"
+                      alt="Aboonda logo"
+                    style="width:20px; height: 20px"
+                    />
+                    </q-avatar>
+                  </q-radio>
+                  <q-radio class="col-12" v-model="payment_method" :val="3" label="Tarjeta de credito" >
+                    <q-avatar>
+                       <q-icon name="payment" />
+                    </q-avatar>
+                  </q-radio>
+                  <q-radio class="col-12" v-model="payment_method" :val="4" label="Efectivo" > 
+                  <q-avatar>
+                       <q-icon name="payments" />
+                    </q-avatar>
+                  </q-radio>
+                  <q-radio class="col-12" v-model="payment_method" :val="5" label="Transferencias" > 
+                  <q-avatar>
+                       <q-icon name="account_balance" />
+                    </q-avatar>
+                  </q-radio>
+    </div>
           </div>
+           <q-separator/>
           <div v-if="!user">
               <div v-if="actions===1">
                 <login />
@@ -116,6 +157,7 @@ export default {
       percentage:0,
       truck_quantity:0,
       express: false,
+      payment_method:1,
     }
   },
   computed:{
