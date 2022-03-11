@@ -1,19 +1,20 @@
 <template>
   <div>
       <div class="text-center text-h6">
-          tipo de caja {{box.id + 1}}
+           Caja {{box.id + 1}} <q-btn flat color="red" icon="cancel"  @click="deleteThis()"/>
       </div>
+    
     <div>
-      <q-input outlined type="number" v-model="quantity" label="cantidad" v-on:keyup="GetTotal" />
+      <q-input outlined type="number" v-model="box.height" label="Altura (cm)" v-on:keyup="GetTotal"  />
     </div>
     <div>
-      <q-input outlined type="number" v-model="box.height" label="altura (cm)" v-on:keyup="GetTotal"  />
+      <q-input outlined type="number" v-model="box.width" label="Anchura (cm)" v-on:keyup="GetTotal" />
     </div>
     <div>
-      <q-input outlined type="number" v-model="box.width" label="anchura (cm)" v-on:keyup="GetTotal" />
+      <q-input outlined type="number" v-model="box.length" label="Largo (cm)" v-on:keyup="GetTotal"  />
     </div>
     <div>
-      <q-input outlined type="number" v-model="box.length" label="largo (cm)" v-on:keyup="GetTotal"  />
+      <q-input outlined type="number" v-model="quantity" label="Cantidad de cajas" v-on:keyup="GetTotal" />
     </div>
   </div>
 </template>
@@ -38,6 +39,9 @@ export default {
         if(this.box.height!= null && this.box.width != null && this.box.length != null ){
           this.box.validate= true;
         }
+      },
+      deleteThis(){
+        this.$emit('deleteThis',this.box.id)
       }
     },
 }

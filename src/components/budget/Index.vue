@@ -5,13 +5,15 @@
            Cotizaciòn
         </q-card-section>
         <div v-show="step === 1">
-        <q-card-section>
-            <q-input outlined v-model="boxes_count" label="Tipos de cajas" />
-        </q-card-section>
+        
         <q-card-section v-if="boxes.length > 0">
             <div class="row">
-                <boxes v-for="(box, index) in boxes" class="col-md-4 col-sm-12" :box="box" :key="index" />
+                <boxes v-for="(box, index) in boxes" class="col-md-4 col-sm-12 full-width" :box="box" :key="index" @deleteThis="remove" />
             </div>
+            <q-card-section>
+              <q-btn color="blue" icon="add" label="agregar otra caja" @click="boxes_count ++"/>
+              
+            </q-card-section>
         
           <div class="q-ml-sm text-h4">
             
@@ -22,19 +24,19 @@
         <div v-show="step===2">
         <div class="q-ml-sm ">
         <div class="text-h4">
-          total  : {{total_boxes}}$
+         
         </div>
             <div>
            
             </div>
             <div>
-            Unidades: {{truck_quantity}}
+                
             </div>
             
           </div>
             <q-btn @click="step=1" label="volver" />
         <q-card-section>
-            <pickupp />
+            <pickupp :boxes="boxes" />
         </q-card-section>
        
         </div>
@@ -187,6 +189,13 @@ export default {
           length:null,
           total:0,
           validate: false,
+          quantity:0,
+          values:[],
+          getQuantity: function (){
+            this.values.forEach(val=>{
+              this.quantity = parseInt(this.quantity) + parseInt(val);
+            })
+          }
         }
         this.boxes.push(data)
       }
@@ -209,19 +218,23 @@ export default {
         return;
       }
       this.boxes.forEach(box=>{
-        total = total + box.total;
+        box.getQuantity()
+        console.log(box.quantity)
+        //total = total + box.total;
       })
       console.log(total)
       this.percentage = (total*100)/400;
       this.total_boxes = total > 140 ? total * 0.05 : 7;
       this.total_boxes = this.total_boxes.toFixed(2);
       this.percentage = this.percentage.toFixed(2);
-      this.truck_quantity = this.percentage/100 < 0 ? this.percentage/100 : 1 ;
+      this.truck_quantity = this.percentage/100 > 0 ? this.percentage/100 : 1 ;
+      console.log(this.truck_quantity);
       this.step = 2;
     },
     getTotal(){
-      this.total = parseFloat(this.total_boxes) + parseFloat (this.total_pick.toFixed(2));
-      console.log(this.total_pick)
+      this.getTotalBoxes()
+      //this.total = parseFloat(this.total_boxes) + parseFloat (this.total_pick.toFixed(2));
+      //console.log(this.total_pick, 'listo')
       this.step = 3;
     },
     set_order(){
@@ -235,9 +248,16 @@ export default {
 
         })
       }
+    },
+    remove(id){
+      this.boxes.splice(id, 1);
+      
+
     }
+    
   },
   mounted() {
+    this.boxes_count = 1;
      this.$root.$on('set_total_pick', (data)=>{
        this.total_pick = data.total;
        this.delivery_points = data.delivery_points;

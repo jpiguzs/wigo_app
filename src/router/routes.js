@@ -44,6 +44,13 @@ const routes = [
       { path: '', component: () => import('pages/request/Request.vue') }
     ]
   },
+  {
+    path: '/cotization',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/cotization/Index.vue') }
+    ]
+  },
 
   // Always leave this as last one,
   // but you can also remove it

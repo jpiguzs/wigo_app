@@ -24,7 +24,7 @@
             
         </div>
          <q-btn v-if="user" flat label="salir" @click="logout()"/>
-       
+        <q-btn v-if="user" flat label="Historial" @click="$router.push('/cotization')"/>
 
       <q-btn flat round dense icon="home" @click="$router.push('/')" />
     </q-toolbar>
