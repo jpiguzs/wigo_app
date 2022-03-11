@@ -64,7 +64,7 @@
                 <div class="text-center col-12 text-uppercase">
                     Metodos de pago
                 </div>
-                  <q-radio class="col-12" v-model="payment_method" :val="1"  label="binance" >
+                  <q-radio class="col-12" v-model="payment_methods" :val="1"  label="binance" >
                       <q-avatar>
                         <img
                       src="/binance.png"
@@ -73,7 +73,7 @@
                     />
                   </q-avatar>
                   </q-radio>
-                  <q-radio class="col-12" v-model="payment_method" :val="2" label="PayPal" >
+                  <q-radio class="col-12" v-model="payment_methods" :val="2" label="PayPal" >
                    <q-avatar>
                         <img
                       src="/paypal.jpeg"
@@ -82,17 +82,17 @@
                     />
                     </q-avatar>
                   </q-radio>
-                  <q-radio class="col-12" v-model="payment_method" :val="3" label="Tarjeta de credito" >
+                  <q-radio class="col-12" v-model="payment_methods" :val="3" label="Tarjeta de credito" >
                     <q-avatar>
                        <q-icon name="payment" />
                     </q-avatar>
                   </q-radio>
-                  <q-radio class="col-12" v-model="payment_method" :val="4" label="Efectivo" > 
+                  <q-radio class="col-12" v-model="payment_methods" :val="4" label="Efectivo" > 
                   <q-avatar>
                        <q-icon name="payments" />
                     </q-avatar>
                   </q-radio>
-                  <q-radio class="col-12" v-model="payment_method" :val="5" label="Transferencias" > 
+                  <q-radio class="col-12" v-model="payment_methods" :val="5" label="Transferencias" > 
                   <q-avatar>
                        <q-icon name="account_balance" />
                     </q-avatar>
@@ -157,7 +157,7 @@ export default {
       percentage:0,
       truck_quantity:0,
       express: false,
-      payment_method:1,
+      payment_methods:1,
     }
   },
   computed:{
@@ -228,7 +228,7 @@ export default {
       if(!this.user){
         this.step= 4
       }else{
-        axios.post("budget/register", {total:this.total, delivery_points:this.delivery_points, boxes:this.boxes}).then(res => {
+        axios.post("budget/register", {total:this.total, delivery_points:this.delivery_points, boxes:this.boxes, payment_methods:this.payment_methods, express:this.express}).then(res => {
           console.log(res.data)
           this.step = 5;
         }).catch(err=>{

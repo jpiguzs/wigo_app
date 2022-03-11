@@ -45,10 +45,10 @@ module.exports = function (/* ctx */) {
     build: {
       vueRouterMode: 'history', // available values: 'hash', 'history'
       env: {
-        API: "http://api.wigo.services/api"
+        //API: "http://api.wigo.services/api"
         //API: "http://velservice.aboonda.com/api"
       
-        //API: "http://localhost:8000/api"
+        API: "http://localhost:8000/api"
       },
       // transpile: false,
 
