@@ -39,6 +39,7 @@ export default {
           origin_code:this.origin_code,
           delivery_code: null,
           total: 0,
+          validate:false
         }
         this.delivery_points.push(data)
       }

@@ -4,7 +4,7 @@
           <q-select  outlined options-dark  label-color="black" v-model="delivery" :options="cities" :option-value="opt => Object(opt) === opt && 'code' in opt ? opt.code : null" :option-label="opt => Object(opt) === opt && 'name' in opt ? opt.name: '- Null -'" label="Seleccione punto de entrega"   />
         </div>
         <div v-for="(box, index) in boxes" v-if="!total_cargo">
-            <q-input outlined v-model="box.values[item_number].val" :label="'caja'+(index+1)" />
+            <q-input outlined v-model="box.values[item_number].val" :label="'caja'+(index+1)"  v-on:focus="focusGet"/>
         </div> 
       </div>
 </template>
@@ -44,12 +44,15 @@ export default {
         this.delivery_point.total =  ref.value;
         this.delivery_point.delivery_code = this.delivery.code;
         this.boxes.forEach(box=>{
-          box.values.forEach(val=>{
-            val.code = this.delivery.code
-          })
+        
+          box.values[this.item_number].code = this.delivery.code
         })
         this.$emit('input', this.delivery_point)
         
+      },
+      focusGet(e){
+        console.log(e.target);
+        document.getElementById(e.target.id).select()
       }
     },
     mounted() {

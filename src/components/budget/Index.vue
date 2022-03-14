@@ -18,7 +18,7 @@
           <div class="q-ml-sm text-h4">
             
           </div>
-          <q-btn @click="getTotalBoxes()" label="Sigiuiente" />
+          <q-btn @click="getTotalBoxes()" label="Siguiente" />
         </q-card-section>
         </div>
         <div v-show="step===2">
@@ -164,6 +164,7 @@ export default {
       express: false,
       payment_methods:1,
       all_cargo:false,
+      id:0,
     }
   },
   computed:{
@@ -185,9 +186,9 @@ export default {
     boxes_count(newVal){
       //this.boxes = [];
       console.log(newVal)
-      for( let index=0; index < newVal; index++){
+     
         let data = {
-          id: index,
+          id: this.id,
           height:0,
           width:0,
           length:0,
@@ -201,8 +202,10 @@ export default {
             })
           }
         }
-        this.boxes.push(data)
-      }
+        this.id++;
+        
+     
+      this.boxes.push(data)
       //console.log(this.boxes)
     },
     all_cargo(newVal){
