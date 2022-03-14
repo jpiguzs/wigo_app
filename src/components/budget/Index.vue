@@ -183,7 +183,7 @@ export default {
       }
     },
     boxes_count(newVal){
-      this.boxes = [];
+      //this.boxes = [];
       console.log(newVal)
       for( let index=0; index < newVal; index++){
         let data = {
