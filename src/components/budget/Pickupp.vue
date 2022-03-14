@@ -7,7 +7,7 @@
           
 
           <div v-if="delivery_points.length > 0">
-              <delivery :boxes="boxes" v-for="(delivery_point, index) in delivery_points" :delivery_point="delivery_points[index]" :key="index" v-model="delivery_points[index]" :item_number="index" />
+              <delivery :total_cargo="total_cargo" :boxes="boxes" v-for="(delivery_point, index) in delivery_points" :delivery_point="delivery_points[index]" :key="index" v-model="delivery_points[index]" :item_number="index" />
           </div>
           <q-btn color="blue" icon="add" label="agregar punto de entrega" @click="delivery_count ++"/>
           <q-btn color="green" label="calcular total" @click="getTotal()" v-if="delivery_points.length > 0"/>
@@ -28,7 +28,7 @@ export default {
     delivery_points:[],
     }
   },
-  props:['boxes'],
+  props:['boxes', 'total_cargo'],
   components:{delivery},
   watch:{
     delivery_count(newVal){

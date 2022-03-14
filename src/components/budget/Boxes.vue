@@ -13,9 +13,7 @@
     <div>
       <q-input outlined type="number" v-model="box.length" label="Largo (cm)" v-on:keyup="GetTotal"  />
     </div>
-    <div>
-      <q-input outlined type="number" v-model="quantity" label="Cantidad de cajas" v-on:keyup="GetTotal" />
-    </div>
+    
   </div>
 </template>
 
@@ -35,7 +33,7 @@ export default {
     }},
     methods: {
       GetTotal(){
-        this.box.total = ((this.box.height * this.box.width * this.box.length)/4400)* this.quantity;
+        //this.box.total = ((this.box.height * this.box.width * this.box.length)/4400)* this.quantity;
         if(this.box.height!= null && this.box.width != null && this.box.length != null ){
           this.box.validate= true;
         }

@@ -1,12 +1,14 @@
 <template>
   <q-page >
     <!-- content -->
+    <index/>
   </q-page>
 </template>
 
 <script>
-//import home from 'components/cotization/Index'
+import index from 'components/cotization/Index'
 export default {
   // name: 'PageName',
+  components:{index}
 }
 </script>
