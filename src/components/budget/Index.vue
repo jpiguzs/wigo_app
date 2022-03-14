@@ -265,7 +265,7 @@ export default {
       if(!this.user){
         this.step= 4
       }else{
-        axios.post("budget/register", {total:this.total, delivery_points:this.delivery_points, boxes:this.boxes, payment_methods:this.payment_methods, express:this.express}).then(res => {
+        axios.post("budget/register", {total:this.total, delivery_points:this.delivery_points, boxes:this.boxes, payment_methods:this.payment_methods, express:this.express, all_cargo:this.all_cargo}).then(res => {
           console.log(res.data)
           this.step = 5;
         }).catch(err=>{
