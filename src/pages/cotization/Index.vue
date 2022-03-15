@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import index from 'components/cotization/Index'
+//
 export default {
   // name: 'PageName',
   components:{index}

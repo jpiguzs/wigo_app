@@ -1,16 +1,29 @@
 <template>
   <div class="q-gutter-sm">
+      <div class="text-h6">
+           Pick up/Entrega
+      </div>
       <div>
-            <q-select  outlined options-dark  label-color="black" v-model="origin_code" :options="cities" :option-value="opt => Object(opt) === opt && 'code' in opt ? opt.code : null" :option-label="opt => Object(opt) === opt && 'name' in opt ? opt.name: '- Null -'" label="Origen"  emit-value map-options  />
+            <q-select class="text-uppercase" input-class="text-uppercase"  popup-content-class="text-uppercase"  outlined options-dark  label-color="black" v-model="origin_code" :options="cities" :option-value="opt => Object(opt) === opt && 'code' in opt ? opt.code : null" :option-label="opt => Object(opt) === opt && 'name' in opt ? opt.name: '- Null -'" label="Pick up"  emit-value map-options  />
       </div>
       <div>
           
 
-          <div v-if="delivery_points.length > 0">
-              <delivery :total_cargo="total_cargo" :boxes="boxes" v-for="(delivery_point, index) in delivery_points" :delivery_point="delivery_points[index]" :key="index" v-model="delivery_points[index]" :item_number="index" />
+          <div v-if="delivery_points.length > 0" class="delivery-box" id="delivery_box" >
+              <delivery  :total_cargo="total_cargo" :boxes="boxes" v-for="(delivery_point, index) in delivery_points" :delivery_point="delivery_points[index]" :key="index" v-model="delivery_points[index]" :item_number="index" />
           </div>
-          <q-btn color="blue" icon="add" label="agregar punto de entrega" @click="delivery_count ++"/>
-          <q-btn color="green" label="calcular total" @click="getTotal()" v-if="delivery_points.length > 0"/>
+          <div class="row">
+            <div class="col-3 text-center q-mt-sm">
+                  <q-btn color="blue" icon="add" round @click="delivery_count ++"/>
+                <div class="text-h6 q-pa-sm">Entrega</div>
+            </div>
+          
+          </div>
+            <div class="q-gutter-sm"> 
+              <slot></slot>
+              <q-btn color="green" label="calcular" @click="getTotal()" v-if="delivery_points.length > 0"/>
+            </div>      
+          
       </div> 
 
   </div>
@@ -42,6 +55,12 @@ export default {
           validate:false
         }
         this.delivery_points.push(data)
+        setTimeout(function(){
+        let point = document.getElementById('delivery_box');
+        console.log(point.scrollHeight)
+        point.scrollTop = point.scrollHeight;
+      }, 200);
+      
       }
     }
   },
@@ -64,3 +83,9 @@ export default {
 
 }
 </script>
+<style>
+.delivery-box{
+  max-height:240px;
+  overflow: auto;
+}
+</style>

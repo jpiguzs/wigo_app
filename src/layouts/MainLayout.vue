@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    
- <q-toolbar class="bg-white text-primary z-top">
+
+ <q-toolbar class="bg-white text-primary fixed z-top" style="top:0">
       <q-btn flat round dense icon="menu" class="q-mr-sm" />
       <q-avatar>
         <img
@@ -28,6 +28,7 @@
 
       <q-btn flat round dense icon="home" @click="$router.push('/')" />
     </q-toolbar>
+     
     <q-page-container>
       <router-view />
     </q-page-container>

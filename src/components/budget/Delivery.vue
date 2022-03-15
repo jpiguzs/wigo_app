@@ -1,10 +1,10 @@
 <template>
-  <div> 
+  <div class="q-mt-sm"> 
         <div>
-          <q-select  outlined options-dark  label-color="black" v-model="delivery" :options="cities" :option-value="opt => Object(opt) === opt && 'code' in opt ? opt.code : null" :option-label="opt => Object(opt) === opt && 'name' in opt ? opt.name: '- Null -'" label="Seleccione punto de entrega"   />
+          <q-select   class="text-uppercase" input-class="text-uppercase"  popup-content-class="text-uppercase"  outlined options-dark  label-color="black" v-model="delivery" :options="cities" :option-value="opt => Object(opt) === opt && 'code' in opt ? opt.code : null" :option-label="opt => Object(opt) === opt && 'name' in opt ? opt.name: '- Null -'" label="Entrega"   />
         </div>
         <div v-for="(box, index) in boxes" v-if="!total_cargo">
-            <q-input outlined v-model="box.values[item_number].val" :label="'caja'+(index+1)"  v-on:focus="focusGet"/>
+            <q-input outlined v-model="box.values[item_number].val" :label="'caja'+(index+1) +  '  ' +box.width + 'cm x' + ' '+box.height+ 'cm x' + ' '+ box.length+ 'cm'  "  v-on:focus="focusGet"/>
         </div> 
       </div>
 </template>

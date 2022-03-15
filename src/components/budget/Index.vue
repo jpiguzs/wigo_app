@@ -1,18 +1,30 @@
 <template>
   <div class="q-mt-xl flex flex-center">
-    <q-card class="auth__card">
+    <q-card class="auth__card card-top">
         <q-card-section>
-           Cotizaciòn
+     
         </q-card-section>
-        <div v-show="step === 1">
-         <q-checkbox v-model="all_cargo" label="Cotizar por toda la carga" color="teal" />
+        <div v-show="step === 1" class="q-pa-none">
+         <!--<q-checkbox v-model="all_cargo" label="Cotizar por toda la carga" color="teal" />-->
+           <div class="row q-pt-md"  v-for="(box, index) in boxes" :key="index" >
+                  <div class="col-10" >
+                       
+                        <div class="text-center q-ml-sm full bg-white text-primary"> Caja {{box.id + 1}}</div>
+                  </div>
+                  <div class="col-1">
+                     <q-btn flat color="red" icon="cancel"  @click="remove(box.id)" />
+                  </div>
+                  <boxes :box="box" @deleteThis="remove"/>
+            
+
+           </div>
+        
+       
         <q-card-section v-if="boxes.length > 0">
-            <div class="row">
-                <boxes v-for="(box, index) in boxes" class="col-md-4 col-sm-12 full-width" :box="box" :key="index" @deleteThis="remove" />
-            </div>
-            <q-card-section>
-              <q-btn color="blue" icon="add" label="agregar otras especificaciones de caja" @click="boxes_count ++"/>
-              
+            
+            <q-card-section class="q-pa-none q-mb-md" >
+              <q-btn color="blue" icon="add" round @click="boxes_count ++"/>
+              <div class="text-h6">Caja</div>
             </q-card-section>
         
           <div class="q-ml-sm text-h4">
@@ -34,23 +46,28 @@
             </div>
             
           </div>
-            <q-btn @click="step=1" label="volver" />
+            
         <q-card-section>
-            <pickupp :boxes="boxes" :total_cargo="all_cargo" />
+            <pickupp :boxes="boxes" :total_cargo="all_cargo" >
+                  <q-btn @click="step=1"  label="volver" />
+            </pickupp>
+            
         </q-card-section>
        
         </div>
-        <div v-show="step===3">
+        <div v-if="step===3">
         <div class="q-ml-sm text-h4">
             Monto a pagar : {{total}}$
              
           </div>
            <div>
-                <ticket :boxes="boxes"/>
+                <ticket :boxes="boxes" :delivery_points="delivery_points"/>
             </div>
+              <div class="q-gutter-sm q-mt-sm">
+                  <q-btn @click="step=2" label="volver" />
+                  <q-btn color="green" @click="set_order()" label="hacer pedido" />
+              </div>
               
-            <q-btn @click="step=2" label="volver" />
-                <q-btn color="green" @click="set_order()" label="hacer pedido" />
         <q-card-section>
          
         </q-card-section>
@@ -294,3 +311,49 @@ export default {
   },
 }
 </script>
+<style>
+table {
+
+  border-spacing: 0;
+ 
+  overflow: hidden;
+  font-size:16px;
+}
+
+
+th {
+ 
+}
+
+td:nth-child(1) {
+  background: #fff ;
+  color: #215A8E;
+  
+  
+}
+
+th:nth-child(1) {
+  padding: 0 !important;
+  
+}
+
+th, td {
+  padding: 0.5em;
+  
+}
+td {
+  text-align:center;
+}
+body tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+.full {
+  width:75px;
+  border-radius:10px;
+  padding-top: 0.2em;
+  padding-bottom:0.2em;
+  border: 1px solid #1976D2;
+}
+
+
+</style>
