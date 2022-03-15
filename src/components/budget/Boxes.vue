@@ -21,7 +21,7 @@
       <q-input outlined dense  class="input_new" type="number"  v-model="box.length" label="Largo (cm)" v-on:keyup="GetTotal" v-on:focus="focusGet"  />
     </div>
     <div class="col-3">
-      <q-input outlined dense class="input_new" type="number" v-model="quantity" label="cant" v-on:keyup="GetTotal" v-on:focus="focusGet" />
+      <q-input outlined dense class="input_new" type="number" v-model="box.max" label="cant" v-on:keyup="GetTotal" v-on:focus="focusGet" />
     </div>
     
   </div>
@@ -38,7 +38,7 @@ export default {
   props:{box: {
       type: Object,
       default: function() {
-        return { id: null, height: null,   width:null, length:null, total:0 , validate:false};
+        return { id: null, height: null,   width:null, length:null, total:0 , validate:false, max:0, max_leftover:0};
       }
     }},
     methods: {
@@ -47,6 +47,7 @@ export default {
         if(this.box.height!= null && this.box.width != null && this.box.length != null ){
           this.box.validate= true;
         }
+        this.box.max_leftover = this.box.max
       },
       deleteThis(){
         this.$emit('deleteThis',this.box.id)

@@ -56,8 +56,12 @@
        
         </div>
         <div v-if="step===3">
-        <div class="q-ml-sm text-h4">
-            Monto a pagar : {{total}}$
+        <div class="q-ml-sm text-h6">
+          <div>
+          Monto a pagar : {{total.toFixed(2)}}$ / {{getBs(total)}}Bs
+          </div>
+          
+            
              
           </div>
            <div>
@@ -214,7 +218,10 @@ export default {
           validate: false,
           quantity:0,
           values:[],
+          max:0,
+          max_leftover:0,
           getQuantity: function (){
+            //this.quantity = 0;
             this.values.forEach(val=>{
               this.quantity = parseInt(this.quantity) + parseInt(val.val);
             })
@@ -300,11 +307,17 @@ export default {
 
     },
     getDolar(){
-      axios.get('https://s3.amazonaws.com/dolartoday/data.json').then(res =>{
-        console.log(res);
+      fetch('https://s3.amazonaws.com/dolartoday/data.json')
+      .then(res =>res.json()).then(json =>{
+        console.log(json);
+        this.dolar = json.USD.promedio;
       }).catch(err=>{
         console.log(err)
       })
+    },
+    getBs(dolar){
+      let bs = dolar * this.dolar;
+      return bs.toFixed(2);
     }
     
   },

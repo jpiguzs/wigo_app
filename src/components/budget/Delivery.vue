@@ -3,8 +3,10 @@
         <div>
           <q-select   class="text-uppercase" input-class="text-uppercase"  popup-content-class="text-uppercase"  outlined options-dark  label-color="black" v-model="delivery" :options="cities" :option-value="opt => Object(opt) === opt && 'code' in opt ? opt.code : null" :option-label="opt => Object(opt) === opt && 'name' in opt ? opt.name: '- Null -'" label="Entrega"   />
         </div>
-        <div v-for="(box, index) in boxes" v-if="!total_cargo">
-            <q-input outlined v-model="box.values[item_number].val" :label="'caja'+(index+1) +  '  ' +box.width + 'cm x' + ' '+box.height+ 'cm x' + ' '+ box.length+ 'cm'  "  v-on:focus="focusGet"/>
+        <div v-for="(box, index) in boxes" v-if="!total_cargo" >
+            <q-input class="q-mt-sm" outlined type="number" v-model="box.values[item_number].val" :label="'caja'+(index+1) +  '  ' +box.width + 'cm x' + ' '+box.height+ 'cm x' + ' '+ box.length+ 'cm'  "  v-on:focus="focusGet" :rules="[ val => parseInt(val) <= parseInt(box.max) || 'Sobre pasa la cantidad maxima',]" 
+            :hint="'Cajas pendientes '+ box.max_leftover" v-on:keyup="setMax(index, box.values[item_number].val)"
+/>
         </div> 
       </div>
 </template>
@@ -41,7 +43,7 @@ export default {
           return destiny.code === this.delivery_point.origin_code;
         })
         
-        this.delivery_point.total =  ref.value;
+        this.delivery_point.total =  ref.value + this.boxes.length;
         this.delivery_point.delivery_code = this.delivery.code;
         this.boxes.forEach(box=>{
         
@@ -53,9 +55,22 @@ export default {
       focusGet(e){
         console.log(e.target);
         document.getElementById(e.target.id).select()
+      },
+      setMax(index, val){
+        this.boxes[index].max_leftover =  this.boxes[index].max;
+        let box = this.boxes[index].max;
+        if(val <= box){
+          this.boxes[index].max_leftover = this.boxes[index].max_leftover - val;
+        }
+      },
+      setNewMax(){
+        this.boxes.forEach(box =>{
+          box.max = box.max_leftover;
+        })
       }
     },
     mounted() {
+      this.setNewMax();
        this.boxes.forEach(box =>{
          let data = {
            val:0,
