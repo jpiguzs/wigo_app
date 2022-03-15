@@ -182,6 +182,7 @@ export default {
       payment_methods:1,
       all_cargo:false,
       id:0,
+      dolar: 0,
     }
   },
   computed:{
@@ -297,10 +298,18 @@ export default {
       this.boxes.splice(id, 1);
       
 
+    },
+    getDolar(){
+      axios.get('https://s3.amazonaws.com/dolartoday/data.json').then(res =>{
+        console.log(res);
+      }).catch(err=>{
+        console.log(err)
+      })
     }
     
   },
   mounted() {
+    this.getDolar();
     this.boxes_count = 1;
      this.$root.$on('set_total_pick', (data)=>{
        this.total_pick = data.total;
