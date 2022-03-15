@@ -3,13 +3,7 @@
 
  <q-toolbar class="bg-white text-primary fixed z-top" style="top:0">
       <q-btn flat round dense icon="menu" class="q-mr-sm" />
-      <q-avatar>
-        <img
-      src="/wigo_logo.jpg"
-      alt="Aboonda logo"
-      style="width:100px"
-    />
-      </q-avatar>
+      
 
       <q-toolbar-title></q-toolbar-title>
        <q-btn flat   label="cotizar" @click="$router.push('/budget')" />
@@ -25,8 +19,17 @@
         </div>
          <q-btn v-if="user" flat label="salir" @click="logout()"/>
         <!--<q-btn v-if="user" flat label="Historial" @click="$router.push('/cotization')"/>-->
+            <router-link to="/">
+              <q-avatar>
+                  <img
+                src="/wigo_logo.jpg"
+                alt="Aboonda logo"
+                style="width:100px"
+              />
+              </q-avatar>
 
-      <q-btn flat round dense icon="home" @click="$router.push('/')" />
+            </router-link>
+      
     </q-toolbar>
      
     <q-page-container>
