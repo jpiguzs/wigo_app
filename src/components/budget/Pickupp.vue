@@ -10,7 +10,20 @@
           
 
           <div v-if="delivery_points.length > 0" class="delivery-box" id="delivery_box" >
-              <delivery  :total_cargo="total_cargo" :boxes="boxes" v-for="(delivery_point, index) in delivery_points" :delivery_point="delivery_points[index]" :key="index" v-model="delivery_points[index]" :item_number="index" />
+          <div v-for="(delivery_point, index) in delivery_points" >
+               <div class="row q-mt-sm">
+                 <div class="col-10" >
+                        <div class="text-center q-ml-sm full bg-white text-primary"> Entrega {{index + 1}}</div>
+                  </div>
+                  <div class="col-1">
+                     <q-btn flat color="red" icon="cancel"  @click="remove(delivery_point.id)" />
+                  </div>
+              </div>
+              <delivery  :total_cargo="total_cargo" :boxes="boxes"  :delivery_point="delivery_points[index]" :key="index" v-model="delivery_points[index]" :item_number="index" />
+
+          </div>
+             
+                 
           </div>
           <div class="row">
             <div class="col-3 text-center q-mt-sm">
@@ -39,29 +52,35 @@ export default {
     origin_code:null,
     delivery_count:0,
     delivery_points:[],
+    id:0,
     }
   },
   props:['boxes', 'total_cargo'],
   components:{delivery},
   watch:{
-    delivery_count(newVal){
-      this.delivery_points = [];
-      for(let index =0 ; index < newVal; index++){
+    delivery_count(newVal, oldVal){
+      if(newVal > oldVal){
+          
         let data = {
-          id: index,
+          id: this.id,
           origin_code:this.origin_code,
           delivery_code: null,
           total: 0,
           validate:false
         }
         this.delivery_points.push(data)
+        this.id++;
         setTimeout(function(){
         let point = document.getElementById('delivery_box');
         console.log(point.scrollHeight)
         point.scrollTop = point.scrollHeight;
       }, 200);
       
+      
+        
       }
+      //this.delivery_points = [];
+      
     }
   },
   methods: {
@@ -79,6 +98,24 @@ export default {
       }
       this.$root.$emit('set_total_pick', data)
     },
+    remove(id){
+      if(this.delivery_points.length > 1){
+        let pointIndex = this.delivery_points.findIndex(point => point.id === id);
+        this.delivery_points.splice(pointIndex, 1);
+        this.delivery_count --;
+        
+      
+      }else{
+         this.$q.notify({
+          message: "No puede eliminar este punto dado que solo queda uno",
+          color: "red",
+          position: "right",
+        });
+        return;
+      }
+      
+
+    },
     
   },
 
@@ -86,7 +123,7 @@ export default {
 </script>
 <style>
 .delivery-box{
-  max-height:240px;
+  max-height:270px;
   overflow: auto;
 }
 </style>

@@ -57,10 +57,13 @@ export default {
         document.getElementById(e.target.id).select()
       },
       setMax(index, val){
+        console.log(val)
         this.boxes[index].max_leftover =  this.boxes[index].max;
         let box = this.boxes[index].max;
-        if(val <= box){
+        console.log(box)
+        if(val >= box){
           this.boxes[index].max_leftover = this.boxes[index].max_leftover - val;
+          //console.log(val )
         }
       },
       setNewMax(){

@@ -12,16 +12,16 @@
     
      
     <div class="col-3">
-      <q-input outlined dense class="input_new"  type="number" v-model="box.height" label="Alto (cm)" v-on:keyup="GetTotal" v-on:focus="focusGet" />
+      <q-input outlined dense class="input_new"  type="number" v-model="box.height" label="Alto (cm)" v-on:change="GetTotal" v-on:focus="focusGet" />
     </div>
     <div class="col-3">
-      <q-input outlined dense class="input_new" type="number" v-model="box.width" label="Ancho (cm)" v-on:keyup="GetTotal" v-on:focus="focusGet" />
+      <q-input outlined dense class="input_new" type="number" v-model="box.width" label="Ancho (cm)" v-on:change="GetTotal" v-on:focus="focusGet" />
     </div>
     <div class="col-3">
-      <q-input outlined dense  class="input_new" type="number"  v-model="box.length" label="Largo (cm)" v-on:keyup="GetTotal" v-on:focus="focusGet"  />
+      <q-input outlined dense  class="input_new" type="number"  v-model="box.length" label="Largo (cm)" v-on:change="GetTotal" v-on:focus="focusGet"  />
     </div>
     <div class="col-3">
-      <q-input outlined dense class="input_new" type="number" v-model="box.max" label="cant" v-on:keyup="GetTotal" v-on:focus="focusGet" />
+      <q-input outlined dense class="input_new" type="number" v-model="box.max" label="cant" v-on:change="GetTotal" v-on:focus="focusGet" />
     </div>
     
   </div>
@@ -40,7 +40,7 @@ export default {
       default: function() {
         return { id: null, height: null,   width:null, length:null, total:0 , validate:false, max:0, max_leftover:0};
       }
-    }},
+    }, boxIndex:null},
     methods: {
       GetTotal(){
         //this.box.total = ((this.box.height * this.box.width * this.box.length)/4400)* this.quantity;

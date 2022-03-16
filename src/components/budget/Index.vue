@@ -9,12 +9,12 @@
            <div class="row q-pt-md"  v-for="(box, index) in boxes" :key="index" >
                   <div class="col-10" >
                        
-                        <div class="text-center q-ml-sm full bg-white text-primary"> Caja {{box.id + 1}}</div>
+                        <div class="text-center q-ml-sm full bg-white text-primary"> Caja {{index + 1}}</div>
                   </div>
                   <div class="col-1">
                      <q-btn flat color="red" icon="cancel"  @click="remove(box.id)" />
                   </div>
-                  <boxes :box="box" @deleteThis="remove"/>
+                  <boxes :box="box" @deleteThis="remove" :indexBox="index"/>
             
 
            </div>
@@ -205,11 +205,10 @@ export default {
        this.total = this.total -7;
       }
     },
-    boxes_count(newVal){
+    boxes_count(newVal, oldVal){
       //this.boxes = [];
-      console.log(newVal)
-     
-        let data = {
+      if(newVal > oldVal){
+         let data = {
           id: this.id,
           height:0,
           width:0,
@@ -231,6 +230,10 @@ export default {
         
      
       this.boxes.push(data)
+
+      }
+     
+       
       //console.log(this.boxes)
     },
     all_cargo(newVal){
@@ -302,7 +305,20 @@ export default {
       }
     },
     remove(id){
-      this.boxes.splice(id, 1);
+      if(this.boxes.length > 1){
+        let boxIndex = this.boxes.findIndex(box => box.id === id);
+        this.boxes.splice(boxIndex, 1);
+        this.boxes_count --;
+        
+      
+      }else{
+         this.$q.notify({
+          message: "No puede eliminar esta caja dado que solo queda una",
+          color: "red",
+          position: "right",
+        });
+        return;
+      }
       
 
     },
