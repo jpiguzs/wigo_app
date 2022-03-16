@@ -103,6 +103,11 @@ export default {
         let pointIndex = this.delivery_points.findIndex(point => point.id === id);
         this.delivery_points.splice(pointIndex, 1);
         this.delivery_count --;
+        this.boxes.forEach(box=>{
+          let valIndex = box.values.findIndex(value => value.delivery_point_id === id);
+          box.values.splice(valIndex, 1);
+          box.seTleftover();
+        })
         
       
       }else{
@@ -116,6 +121,10 @@ export default {
       
 
     },
+    addNewdelivery(){
+       
+      
+    }
     
   },
 

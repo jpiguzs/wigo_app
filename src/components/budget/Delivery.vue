@@ -4,8 +4,8 @@
           <q-select   class="text-uppercase" input-class="text-uppercase"  popup-content-class="text-uppercase"  outlined options-dark  label-color="black" v-model="delivery" :options="cities" :option-value="opt => Object(opt) === opt && 'code' in opt ? opt.code : null" :option-label="opt => Object(opt) === opt && 'name' in opt ? opt.name: '- Null -'" label="Entrega"   />
         </div>
         <div v-for="(box, index) in boxes" v-if="!total_cargo" >
-            <q-input class="q-mt-sm" outlined type="number" v-model="box.values[item_number].val" :label="'caja'+(index+1) +  '  ' +box.width + 'cm x' + ' '+box.height+ 'cm x' + ' '+ box.length+ 'cm'  "  v-on:focus="focusGet" :rules="[ val => parseInt(val) <= parseInt(box.max) || 'Sobre pasa la cantidad maxima',]" 
-            :hint="'Cajas pendientes '+ box.max_leftover" v-on:keyup="setMax(index, box.values[item_number].val)"
+            <q-input class="q-mt-sm" outlined type="number" v-model="box.values[item_number].val" :label="'caja'+(index+1) +  '  ' +box.width + 'cm x' + ' '+box.height+ 'cm x' + ' '+ box.length+ 'cm'  "  v-on:focus="focusGet" :rules="[ val => setMax(index,parseInt(val)) || 'Sobrepasa la cantidad maxima',]" 
+            :hint="'Cajas pendientes '+ box.max_leftover" 
 />
         </div> 
       </div>
@@ -57,14 +57,29 @@ export default {
         document.getElementById(e.target.id).select()
       },
       setMax(index, val){
-        console.log(val)
-        this.boxes[index].max_leftover =  this.boxes[index].max;
-        let box = this.boxes[index].max;
-        console.log(box)
-        if(val >= box){
-          this.boxes[index].max_leftover = this.boxes[index].max_leftover - val;
-          //console.log(val )
+      if(val){
+        let val_toString =  val.toString()
+        let val_add = val_toString.substr(0,val_toString.length-1)
+        if(val_add){
+          console.log(val_add, )
+          this.boxes[index].max_leftover = parseInt(this.boxes[index].max_leftover) + parseInt(val_add)
         }
+        //console.log(val)
+        let value = parseInt(val)
+        let box = parseInt(this.boxes[index].max_leftover);
+        console.log(box, val,"vass")
+        if(value <= box){
+          this.boxes[index].seTleftover();
+          //console.log(val )
+           return true;
+        }else{
+          return false;
+        }
+      }else{
+        return true;
+      }
+       
+       
       },
       setNewMax(){
         this.boxes.forEach(box =>{
@@ -73,13 +88,16 @@ export default {
       }
     },
     mounted() {
-      this.setNewMax();
+      //this.setNewMax();
        this.boxes.forEach(box =>{
          let data = {
            val:0,
-           code:null
+           code:null,
+           delivery_point_id:this.delivery_point.id,
+           
          }
-         box.values.push(data)
+         box.values.push(data);
+         box.seTleftover()
        })
        console.log(this.boxes)
     },

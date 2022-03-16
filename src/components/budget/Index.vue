@@ -215,16 +215,57 @@ export default {
           length:0,
           total:0,
           validate: false,
+          delivery_validate:false,
           quantity:0,
           values:[],
           max:0,
           max_leftover:0,
+          notify:this.$q.notify,
           getQuantity: function (){
             //this.quantity = 0;
             this.values.forEach(val=>{
               this.quantity = parseInt(this.quantity) + parseInt(val.val);
             })
-          }
+          },
+          seTleftover: function() {
+            let total = 0;
+            this.values.forEach(val=>{
+              console.log(val.val)
+              total += parseInt(val.val) 
+            })
+            console.log(total)
+            this.max_leftover = this.max - total;
+            console.log(this.max_leftover)
+          },
+          setValidate: function () {
+            this.delivery_validate= true; 
+            if(this.max_leftover!=0){
+              this.delivery_validate = false;
+               this.notify({
+                  message: "tienes cajas por llenar",
+                  color: "red",
+                  position: "right",
+                });
+                //return;
+            } else{
+              this.values.forEach(val=>{
+              console.log(val)
+              if(val.code === null){
+                this.delivery_validate = false;
+                 this.notify({
+                  message: "debes selecionar todos sitios",
+                  color: "red",
+                  position: "right",
+                });
+              }
+            
+            })
+              
+            }
+            
+            
+          },
+          
         }
         this.id++;
         
@@ -272,8 +313,18 @@ export default {
         box.getQuantity();
         box.total= ((box.height * box.width * box.length)/4400)* box.quantity;;
         total = total+ box.total;
+        let validate = box.setValidate();
+
+
         //total = total + box.total;
+      });
+      let index = this.boxes.findIndex(box =>{
+       return box.delivery_validate === false;
       })
+      if(index!=-1){
+        
+        return;
+      }
       //console.log(total)
       this.percentage = (total*100)/400;
       this.total_boxes = total > 140 ? total * 0.05 : 7;
