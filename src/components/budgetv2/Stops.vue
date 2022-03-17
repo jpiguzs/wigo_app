@@ -33,7 +33,7 @@
     </div>
     <div v-if="action===2 || action=== 3">
      <expantions  icon="inventory_2" title="Pick Up">
-          seccion de Pick upp
+          <select_items v-model="selected_item" />
      </expantions>
     </div>
    
@@ -44,12 +44,14 @@
 import select_cities from './SelectCities'
 import {items} from '../../status/items.js'
 import expantions from 'components/commons/Expantions'
+import select_items from './Select-items'
 export default {
   // name: 'ComponentName',
   data () {
     return {
       stop_code:null,
       action:null,
+      selected_item:null,
       items
     }
   },
@@ -58,6 +60,6 @@ export default {
       console.log(action)
     }
   },
-  components:{select_cities, expantions}
+  components:{select_cities, expantions, select_items}
 }
 </script>
