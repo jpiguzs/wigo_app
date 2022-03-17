@@ -233,9 +233,9 @@ export default {
               console.log(val.val)
               total += parseInt(val.val) 
             })
-            console.log(total)
+            
             this.max_leftover = this.max - total;
-            console.log(this.max_leftover)
+            
           },
           setValidate: function () {
             this.delivery_validate= true; 
@@ -436,13 +436,7 @@ td {
 body tr:nth-of-type(even) {
     background-color: #f3f3f3;
 }
-.full {
-  width:75px;
-  border-radius:10px;
-  padding-top: 0.2em;
-  padding-bottom:0.2em;
-  border: 1px solid #1976D2;
-}
+
 
 
 </style>
