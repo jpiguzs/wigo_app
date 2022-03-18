@@ -9,7 +9,7 @@
             options-dark  
             label-color="black" 
             v-model="selected_item" 
-            :options="items" 
+            :options="items_filtred" 
             :option-value="opt => Object(opt) === opt && 'id' in opt ? opt.id : null" 
             :option-label="opt => Object(opt) === opt && 'name' in opt ? opt.name: '- Null -'" 
             label="items" 
@@ -18,7 +18,9 @@
             multiple 
             clearable 
             behavior="menu" 
-            map-options   />
+            map-options
+            
+               />
       </div>
 </template>
 
@@ -26,8 +28,11 @@
 export default {
   // name: 'ComponentName',
   data () {
-    return {selected_item:null}
+    return {selected_item:null, 
+      items_filtred:[],
+    }
   },
+  props:{filter_conditions:0},
   computed:{
     items:{
       get(){
@@ -43,6 +48,15 @@ export default {
         this.$emit('input', selected_item)
       }
 
+    },
+    beforeMount() {
+      this.items_filtred = this.items.filter(item=>{
+        if(this.filter_conditions === 0) return item.actions !=null;
+        if(this.filter_conditions===1) return item.actions === 1  || item.actions===2;
+        if(this.filter_conditions ===2) return item.actions ===1;
+        if(this.filter_conditions ===3) return item.actions ===3;
+      })
+      //this.selected_item = this.filter_conditions === 2 : 1 : null;
     },
     beforeDestroy() {
       this.selected_item=[];

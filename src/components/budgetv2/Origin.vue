@@ -10,6 +10,7 @@
         v-if="origin_code"
         :discard="2"
         v-model="selected_item"
+        :filter_conditions="2"
        
       />
       <!--box-->
@@ -46,7 +47,7 @@ export default {
     id:0,
     }
   },
-  props:['boxes'],
+  props:['boxes',],
   components:{select_items, boxes, select_cities},
   watch:{
       selected_item(selected_item){
@@ -56,8 +57,11 @@ export default {
         }
         //this.CreateBox();
         this.$emit('selectedItems', data );
-        console.log(data, 'desde origina'); 
+        
       },
+      origin_code(origin_code){
+        this.$emit('input', origin_code)
+      }
       
 
   },
@@ -66,7 +70,7 @@ export default {
        let data = {
          origin_code:this.origin_code,
        }
-       console.log(data)
+     
       this.$root.$emit('add_box', data)
     },
   }

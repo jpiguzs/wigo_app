@@ -11,7 +11,7 @@
             :option-value="opt => Object(opt) === opt && 'code' in opt ? opt.code : null" 
             :option-label="opt => Object(opt) === opt && 'name' in opt ? opt.name: '- Null -'" 
             label="Ciudades"  
-            emit-value 
+            :emit-value="emit_value" 
             clearable
             behavior="menu"
             map-options  />
@@ -28,6 +28,10 @@ export default {
       code: null
     }
   },
+  props:{emit_value:{
+    type: Boolean,
+    default: true
+  }},
   watch:{
     code(code){
       this.$emit('input', code)

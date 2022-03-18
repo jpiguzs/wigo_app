@@ -1,5 +1,10 @@
 <template>
   <div>
+  <div>
+  <div>
+          Monto a pagar : {{total.toFixed(2)}}$ / {{getBs(total)}}Bs
+          </div>
+  </div>
     <div v-for="(point, index) in points" :key="index" >
         <q-card flat>
           <q-card-section class="">
@@ -42,9 +47,9 @@ import { city} from "../../status/citys.js";
 export default {
   // name: 'ComponentName',
   data () {
-    return {cities: city, points:[]}
+    return {cities: city, points:[], dolar:null}
   },
-  props:['boxes', 'delivery_points'],
+  props:['boxes', 'stops' ,'total'],
 
   methods:{
     getNameCity(code){
@@ -55,7 +60,9 @@ export default {
       else{ return 'no existe'}
     },
     setPoints(){
-      this.delivery_points.forEach(point=>{
+      console.log(this.stops)
+      this.stops.forEach(point=>{
+        console.log(point)
        let description = this.getNameCity(point.origin_code)+' -----> '+this.getNameCity(point.delivery_code);
         let boxes = [];
         this.boxes.forEach(box=>{
@@ -84,10 +91,24 @@ export default {
           
       })
       console.log(this.points, 'puntos')
+    },
+    getDolar(){
+      fetch('https://s3.amazonaws.com/dolartoday/data.json')
+      .then(res =>res.json()).then(json =>{
+        console.log(json);
+        this.dolar = json.USD.promedio;
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    getBs(dolar){
+      let bs = dolar * this.dolar;
+      return bs.toFixed(2);
     }
 
   },
   mounted() {
+    this.getDolar();
     this.setPoints();
   }
 }

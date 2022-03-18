@@ -4,7 +4,19 @@
            Pick up/Entrega
       </div>
       <div>
-            <q-select class="text-uppercase" input-class="text-uppercase"  popup-content-class="text-uppercase"  outlined options-dark  label-color="black" v-model="origin_code" :options="cities" :option-value="opt => Object(opt) === opt && 'code' in opt ? opt.code : null" :option-label="opt => Object(opt) === opt && 'name' in opt ? opt.name: '- Null -'" label="Pick up"  emit-value map-options  />
+            <q-select 
+            class="text-uppercase" 
+            input-class="text-uppercase"  
+            popup-content-class="text-uppercase"  
+            outlined options-dark  
+            label-color="black" 
+            v-model="origin_code" 
+            :options="cities" 
+            :option-value="opt => Object(opt) === opt && 'code' in opt ? opt.code : null" 
+            :option-label="opt => Object(opt) === opt && 'name' in opt ? opt.name: '- Null -'" 
+            label="Pick up"  
+            emit-value 
+            map-options  />
       </div>
       <div>
           

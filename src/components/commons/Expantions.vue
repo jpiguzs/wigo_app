@@ -5,8 +5,8 @@
       style="border-radius: 10px"
       :icon="icon"
       :label="title"
-      
-      header-class="bg-primary text-white text-center"
+      :default-opened="default_opened"
+      :header-class="bg+' text-white text-center'"
       expand-icon-class="text-white"
     >
     <q-card>
@@ -25,6 +25,6 @@ export default {
   data () {
     return {}
   },
-  props:['icon', 'title']
+  props:['icon', 'title', 'bg', 'default_opened']
 }
 </script>

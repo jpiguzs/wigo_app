@@ -18,6 +18,13 @@ export const CreateBox = (origin_code=null)=>{
         max:0,
         max_leftover:0,
         notify:Notify,
+        purgeValues: function () {
+          let values = this.values.filter(val =>  parseInt(val.val=== 0))
+          values.forEach(val =>{
+            let index = this.values.findIndex(value=> value.id ===val.id);
+            this.values.splice(index, 1);
+          })
+        },
         getQuantity: function (){
           //this.quantity = 0;
           this.values.forEach(val=>{
