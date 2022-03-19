@@ -30,6 +30,9 @@
                     <div>
                        Cantidad : {{value.quantity}}
                     </div>
+                    <div>
+                       {{getFree(value)}}
+                    </div>
                     
                    
                 </div>
@@ -104,12 +107,39 @@ export default {
     getBs(dolar){
       let bs = dolar * this.dolar;
       return bs.toFixed(2);
+    },
+
+    getFree(value){
+       // {{ value.width}} cm x {{value.height}} cm x {{value.length}} cm 
+
+       let gratis=0.45454545454545453;
+
+       if(value.quantity==1){
+          if(gratis=== (parseInt(value.width)*parseInt(value.height)*parseInt(value.length))/4400){
+            return "WIGO"
+          }
+          return '';
+       }
+       else{ 
+         return '';
+       }
+
+        
+        //if(parseInt(value.width)* )
+      
+
+      
+
     }
+
+
 
   },
   mounted() {
     this.getDolar();
     this.setPoints();
+
+    console.log('Box', this.boxes);
   }
 }
 </script>

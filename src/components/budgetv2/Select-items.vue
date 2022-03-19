@@ -12,11 +12,11 @@
             :options="items_filtred" 
             :option-value="opt => Object(opt) === opt && 'id' in opt ? opt.id : null" 
             :option-label="opt => Object(opt) === opt && 'name' in opt ? opt.name: '- Null -'" 
-            label="items" 
+            :label="showLabel" 
             use-input
             use-chips
             multiple 
-            clearable 
+           
             behavior="menu" 
             map-options
             
@@ -30,6 +30,7 @@ export default {
   data () {
     return {selected_item:null, 
       items_filtred:[],
+      showLabel:'Item'
     }
   },
   props:{filter_conditions:0},
@@ -45,7 +46,8 @@ export default {
   watch:{
       selected_item(selected_item){
         
-        this.$emit('input', selected_item)
+        this.$emit('input', selected_item);
+        this.showLabel='';
       }
 
     },

@@ -2,17 +2,24 @@
   <q-layout view="lHh Lpr lFf">
 
  <q-toolbar class="bg-white text-primary fixed z-top" style="top:0">
-      <q-btn flat round dense icon="menu" class="q-mr-sm" />
-      
 
-      <q-toolbar-title></q-toolbar-title>
-       <q-btn flat   label="cotizar" @click="$router.push('/budget')" />
+  
+      <q-btn flat round dense icon="menu" class="q-mr-sm" @click="$router.push('/budget')"/>
+      
+       <q-btn flat   label=""  />
+        
+        <!--<q-btn flat   label=""  />-->
+        <!--<q-btn flat   label="" @click="$router.push('/budget')" />-->
       
         <div v-if="!user" >
-             <q-btn flat   label="login" @click="auth_to(1)" />
-              <q-btn flat  label="registro" @click="auth_to(2)" />
+            <q-btn flat   label="login" @click="auth_to(1)" />
+            <q-btn flat   label=""  />
+            <q-btn flat  label="registro" @click="auth_to(2)" />
+            <q-btn flat   label=""  />
      
         </div>
+
+
         <div v-if="user" >
           <div class="text-uppercase">{{user.name}}</div>
             
@@ -24,7 +31,7 @@
                   <img
                 src="/wigo_logo.jpg"
                 alt="Aboonda logo"
-                style="width:100px"
+                style="width:40px"
               />
               </q-avatar>
 

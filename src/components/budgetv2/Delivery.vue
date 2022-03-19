@@ -8,7 +8,7 @@
       :label="label" 
       
       :rules="[ val => setMax(parseInt(val)) || 'Sobrepasa la cantidad maxima',]"
-       :hint="'Cajas pendientes '+ box.max_leftover" />
+      :hint="'Cajas pendientes '+ box.max_leftover" />
       
   
   </div>

@@ -10,9 +10,9 @@
             :options="cities" 
             :option-value="opt => Object(opt) === opt && 'code' in opt ? opt.code : null" 
             :option-label="opt => Object(opt) === opt && 'name' in opt ? opt.name: '- Null -'" 
-            label="Ciudades"  
+            :label="showLabel"  
             :emit-value="emit_value" 
-            clearable
+            
             behavior="menu"
             map-options  />
       </div>
@@ -25,7 +25,8 @@ export default {
   data () {
     return {
       cities:city,
-      code: null
+      code: null,
+      showLabel:'Ciudad'
     }
   },
   props:{emit_value:{
@@ -34,8 +35,11 @@ export default {
   }},
   watch:{
     code(code){
-      this.$emit('input', code)
+      this.$emit('input', code);
+      this.showLabel='';
     }
+
+
   }
 
 }

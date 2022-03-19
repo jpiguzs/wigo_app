@@ -23,7 +23,7 @@
             :options="items" 
             :option-value="opt => Object(opt) === opt && 'id' in opt ? opt.id : null" 
             :option-label="opt => Object(opt) === opt && 'name' in opt ? opt.name: '- Null -'" 
-            label="Delivery/Pick up" 
+            :label="showLabel" 
           
             emit-value
             clearable 
@@ -36,6 +36,7 @@
           <select_items 
           v-model="selected_for_delivery" 
           :filter_conditions="3" />
+
           <div v-if="delivery_box.length > 0">
               <delivery  
               v-for="(box, index) in delivery_box" 
@@ -102,6 +103,7 @@ export default {
       delivery_box:[],
       selected_for_delivery: [],
       delivery_code: null,
+      showLabel:'Delivery/Pick up'
     }
   },
   props:['boxes', 'stopIndex', 'stop', 'origin_code'],
@@ -117,6 +119,8 @@ export default {
 
     },
     action(action){
+      this.showLabel='';
+      console.log(action);
      
     },
     selected_for_delivery(selected_for_delivery){
@@ -173,7 +177,7 @@ export default {
       }else{
         this.delivery_box.push(data);
       }
-      console.log(this.delivery_box)
+      console.log('delivery_box',this.delivery_box)
       
       
       
@@ -212,7 +216,16 @@ export default {
         
       },
   },
+  
   mounted() {
+    console.log('Boxes',this.boxes);
+    console.log('stopIndex',this.stopIndex);
+    console.log('stop',this.stop);
+    console.log('origin_code',this.origin_code);
+
+    console.log('Items',this.items);
+
+
     this.$root.$on('delete_box',(id)=>{
       this.remove(id)
     })

@@ -13,6 +13,9 @@
         :filter_conditions="2"
        
       />
+
+
+
       <!--box-->
       <div v-if="boxes.length > 0 && origin_code" >
       <div class="row q-pt-md"  v-for="(box, index) in boxes" :key="index" >        

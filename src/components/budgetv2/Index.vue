@@ -5,25 +5,27 @@
      <q-card-section v-show="step===1" >
       <origin  
       :boxes="boxes" 
-      v-model="origin_code" 
+      v-model="origin_code"
       @selectedItems="SelectedItems"
       />
      </q-card-section>
      </transition>
+
+
     <transition enter-active-class="animate__animated animate__backInLeft"  >
-          <q-card-section v-show="step===2">
-              <div v-if="stops.length > 0" >
-                <stops class="q-mt-md" :origin_code="origin_code" :boxes="boxes" v-for="(stop, index) in stops" :stop="stop" :stopIndex='index + 1' :key="index" />
+        <q-card-section v-show="step===2">
+            <div v-if="stops.length > 0" >
+              <stops class="q-mt-md" :origin_code="origin_code" :boxes="boxes" v-for="(stop, index) in stops" :stop="stop" :stopIndex='index + 1' :key="index" />
+            </div>
+            <div class="row items-start text-center w  q-mt-md" >
+              <div class="col-12">
+                  <q-btn color="blue" icon="add" round @click="AddStops"/>
               </div>
-              <div class="row items-start text-center w  q-mt-md" >
-                <div class="col-12">
-                    <q-btn color="blue" icon="add" round @click="AddStops"/>
-                </div>
-                  
-                <div class="text-h6 col-12">Paradas</div>
-              </div>
-              
-          </q-card-section>
+                
+              <div class="text-h6 col-12">Paradas</div>
+            </div>
+            
+        </q-card-section>
      </transition>
      <transition enter-active-class="animate__animated animate__backInLeft"  >
       <q-card-section v-if="step===3">
