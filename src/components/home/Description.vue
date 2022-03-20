@@ -5,16 +5,16 @@
         <img
       src="/wigo_logo.jpg"
       alt="Aboonda logo"
-      
+
     />
       </q-avatar>
     </div>
-    <div class=" col-12 text-h6 text-center ">
+    <!--<div class=" col-12 text-h6 text-center ">
       Siempre a Tiempo con tus entregas
 
-       
-    </div>
-    <div class=" col-12 ">
+
+    </div>-->
+    <div class="col-12">
       <q-btn color="primary" label="cotizar" class="full-width"  @click="$router.push('/budget')" />
     </div>
   </div>

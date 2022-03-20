@@ -1,16 +1,16 @@
 <template>
   <div class="q-ml-sm col-12 row">
-  
+
      <!-- <div class="text-center row text-h6">
          <div class="col-11">
          Caja {{box.id + 1}}
          </div>
          <div class="col-1">
          <q-btn flat color="red" icon="cancel"  @click="deleteThis()" />
-         </div>  
+         </div>
       </div>-->
-    
-     
+
+
     <div class="col-3">
       <q-input outlined dense class="input_new"  type="number" v-model="box.height" label="Alto (cm)" v-on:change="GetTotal" v-on:focus="focusGet" />
     </div>
@@ -23,7 +23,7 @@
     <div class="col-3">
       <q-input outlined dense class="input_new" type="number" v-model="box.max" label="cant" v-on:change="GetTotal" v-on:focus="focusGet" />
     </div>
-    
+
   </div>
 </template>
 
@@ -62,7 +62,7 @@ export default {
 <style>
 .input_new  {
   width:75px;
-  
+
 }
 .q-field__label{
   text-overflow:clip !important;

@@ -1,45 +1,114 @@
 <template>
   <div>
-  <div>
-  <div>
-          Monto a pagar : {{total.toFixed(2)}}$ / {{getBs(total)}}Bs
-          </div>
-  </div>
+    <div>
+        <!--<div>
+            Monto a pagar : {{total.toFixed(2)}}$ / {{getBs(total)}}Bs
+          </div> -->
+    </div>
+
+    <div class="row text-black text-capitalize text-bold">
+        <div class="col-1">
+
+      </div>
+      <div class="col-4">
+
+      </div>
+
+      <div class="col-2">
+Medida
+      </div>
+      <div class="col-2">
+Cant
+      </div>
+      <div class="col-2">
+Precio
+      </div>
+
+    </div>
     <div v-for="(point, index) in points" :key="index" >
-        <q-card flat>
-          <q-card-section class="">
-          <div class=" text-h6 text-uppercase">
-               {{point.description}}
-          </div>
-          <div v-for="(value, index2) in point.boxes" :key="index2">
-                  <div>
-                        <div class="row">
-                        <div class="col-2 ">
-                        {{value.description}} 
-                        </div>
-                        <div class="col-8">
-                             {{ value.width}} cm x {{value.height}} cm x {{value.length}} cm 
-                        </div>    
-                        
-                       
-                        
-                        </div>
-                        
-                         
-                    </div>
-                    <div>
-                       Cantidad : {{value.quantity}}
-                    </div>
-                    <div>
-                       {{getFree(value)}}
-                    </div>
-                    
-                   
+        <q-card >
+            <q-card-section  >
+              <div class="row text-capitalize text-bold">
+                <div class="col-12 text-black ">
+
+                  {{point.description1}}
+                   <q-icon name="local_shipping" size="25px" color="info" float-right/>
+
+                </div>
+                <div class="col-12 text-black">
+                  <q-icon name="local_shipping" size="25px" color="info" float-right/>
+                  {{point.description2}}
                 </div>
 
-          </q-card-section>
+
+              </div>
+
+              <!--{{point.description}} -->
+
+
+            </q-card-section>
+
+            <q-card-secction>
+              <table class="full-width text-center text-black">
+                 <thead>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </thead>
+                <tbody>
+                  <tr v-for="(value, index2) in point.boxes" :key="index2">
+                    <td>{{"Delivery"}}</td>
+                    <td>{{ value.width}}x{{value.height}}x{{value.length}}</td>
+                    <td>{{value.quantity}}</td>
+                    <td>{{ getFree(value) }}$</td>
+
+                  </tr>
+                </tbody>
+                 <!--<tfoot class="text-h7 text-uppercase">
+                  <tr>
+                    <td></td>
+                    <td>Total</td>
+                    <td></td>
+                    <td>{{total.toFixed(2)}} $ / {{getBs(total)}} Bs</td>
+                  </tr>
+                </tfoot> -->
+              </table>
+
+
+            </q-card-secction>
+
+
+
+
           <q-separator/>
         </q-card>
+
+    </div>
+
+    <q-card >
+
+      <div class="row text-black text-bold">
+        <div class="col-8">
+
+        </div>
+
+         <div class="col-4 text-right">
+            {{'Total: $ '}} {{total.toFixed(2)}}
+        </div>
+      </div>
+       <div class="row text-black text-bold">
+        <div class="col-8">
+
+        </div>
+
+         <div class="col-4 text-right">
+            {{'Bs '}} {{ getBs(total)}}
+        </div>
+      </div>
+    </q-card>
+
+    <div>
 
     </div>
   </div>
@@ -50,7 +119,7 @@ import { city} from "../../status/citys.js";
 export default {
   // name: 'ComponentName',
   data () {
-    return {cities: city, points:[], dolar:null}
+    return {cities: city, points:[], dolar:null,showWigo:false}
   },
   props:['boxes', 'stops' ,'total'],
 
@@ -66,13 +135,13 @@ export default {
       console.log(this.stops)
       this.stops.forEach(point=>{
         console.log(point)
-       let description = this.getNameCity(point.origin_code)+' -----> '+this.getNameCity(point.delivery_code);
+        let description = this.getNameCity(point.origin_code)+' / '+this.getNameCity(point.delivery_code);
         let boxes = [];
         this.boxes.forEach(box=>{
           console.log(box)
           let box_found = box.values.find(val=> val.code === point.delivery_code);
           let box_description = 'Caja '+ (box.id+1);
-          console
+
           if(box_found){
              let data = {
             description: box_description,
@@ -80,18 +149,21 @@ export default {
             width:box.width,
             height:box.height,
             length:box.length,
+            price:box.total
           }
           boxes.push(data);
           }
-         
-        
+
+
         })
         let data2 = {
           description:description,
+          description1:this.getNameCity(point.origin_code),
+          description2:this.getNameCity(point.delivery_code),
           boxes:boxes
         }
           this.points.push(data2)
-          
+
       })
       console.log(this.points, 'puntos')
     },
@@ -105,30 +177,42 @@ export default {
       })
     },
     getBs(dolar){
+
       let bs = dolar * this.dolar;
       return bs.toFixed(2);
     },
+     getBss(value,dolar){
+      let gratis=0.45454545454545453;
+      let bs = dolar * this.dolar;
+
+       if(value.quantity==1){
+          if(gratis=== (parseInt(value.width)*parseInt(value.height)*parseInt(value.length))/4400){
+            return 0;
+          }
+          return bs.toFixed(2);
+
+       }
+       else{
+         return bs.toFixed(2);
+       }
+    },
 
     getFree(value){
-       // {{ value.width}} cm x {{value.height}} cm x {{value.length}} cm 
+       // {{ value.width}} cm x {{value.height}} cm x {{value.length}} cm
 
        let gratis=0.45454545454545453;
 
        if(value.quantity==1){
           if(gratis=== (parseInt(value.width)*parseInt(value.height)*parseInt(value.length))/4400){
-            return "WIGO"
+            return 0;
           }
-          return '';
+          return value.price.toFixed(2);
+          //this.showWigo=false;
        }
-       else{ 
-         return '';
+       else{
+         return value.price.toFixed(2);
+         //this.showWigo=false;
        }
-
-        
-        //if(parseInt(value.width)* )
-      
-
-      
 
     }
 
@@ -140,6 +224,9 @@ export default {
     this.setPoints();
 
     console.log('Box', this.boxes);
+    console.log('stops', this.stops);
+    console.log('total', this.total);
+
   }
 }
 </script>

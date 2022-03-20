@@ -1,16 +1,15 @@
 <template>
   <div>
 
-      <q-input 
-      v-model="box.values[index_item].val" 
-      outlined 
-      type="number"  
-      :label="label" 
-      
+      <q-input
+      v-model="box.values[index_item].val"
+      outlined
+      type="number"
+      :label="label"
+
       :rules="[ val => setMax(parseInt(val)) || 'Sobrepasa la cantidad maxima',]"
       :hint="'Cajas pendientes '+ box.max_leftover" />
-      
-  
+
   </div>
 </template>
 
@@ -33,20 +32,20 @@ export default {
         type: Object,
         default: function() {
           return {
-            id: null, 
-            height: null,   
-            width:null, 
-            length:null, 
-            total:0 , 
-            validate:false, 
-            max:0, 
+            id: null,
+            height: null,
+            width:null,
+            length:null,
+            total:0 ,
+            validate:false,
+            max:0,
             max_leftover:0,
           }
-       
-        }      
+
+        }
     },
     delivery_code:null,
-  
+
   },
   watch:{
     delivery_code(delivery_code){
@@ -79,18 +78,18 @@ export default {
       }else{
         return true;
       }
-       
-       
+
+
       },
-      
+
   },
   mounted() {
       let data = {
            val:0,
            code:this.delivery_code,
-           id: this.CreateId()
+           id: this.CreateId(),
            //delivery_point_id:this.delivery_point.id,
-           
+
          }
         let index = this.box.values.push(data);
         this.index_item = (index - 1)

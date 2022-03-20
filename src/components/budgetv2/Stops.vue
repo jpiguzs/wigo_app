@@ -1,47 +1,47 @@
 <template>
   <div >
-  <expantions 
-  class="q-gutter-sm"  
-  icon="local_parking" 
-  :title="'Parada '+ stopIndex " 
+  <expantions
+  class="q-gutter-sm"
+  icon="local_parking"
+  :title="'Parada '+ stopIndex "
   bg="bg-green"
   :default_opened="stopIndex === 1 ? true : false"
   >
-  
+
     <div>
       <select_cities v-model="delivery" :emit_value="false" />
     </div>
     <div>
        <q-select
-            class="text-uppercase" 
-            input-class="text-uppercase"  
-            popup-content-class="text-uppercase"  
-            outlined 
-            options-dark  
-            label-color="black" 
-            v-model="action" 
-            :options="items" 
-            :option-value="opt => Object(opt) === opt && 'id' in opt ? opt.id : null" 
-            :option-label="opt => Object(opt) === opt && 'name' in opt ? opt.name: '- Null -'" 
-            :label="showLabel" 
-          
+            class="text-uppercase"
+            input-class="text-uppercase"
+            popup-content-class="text-uppercase"
+            outlined
+            options-dark
+            label-color="black"
+            v-model="action"
+            :options="items"
+            :option-value="opt => Object(opt) === opt && 'id' in opt ? opt.id : null"
+            :option-label="opt => Object(opt) === opt && 'name' in opt ? opt.name: '- Null -'"
+            :label="showLabel"
+
             emit-value
-            clearable 
-            behavior="menu" 
-            map-options 
+            clearable
+            behavior="menu"
+            map-options
               />
     </div>
     <div v-if="action===1  || action=== 3">
      <expantions  icon="local_shipping" title="Delivery" bg="bg-primary">
-          <select_items 
-          v-model="selected_for_delivery" 
+          <select_items
+          v-model="selected_for_delivery"
           :filter_conditions="3" />
 
           <div v-if="delivery_box.length > 0">
-              <delivery  
-              v-for="(box, index) in delivery_box" 
-              :key="index" 
-              :label="box.name" 
+              <delivery
+              v-for="(box, index) in delivery_box"
+              :key="index"
+              :label="box.name"
               :box="box.box"
               :delivery_code="delivery_code"
               />
@@ -49,26 +49,26 @@
      </expantions>
     </div>
     <div v-if="action===2 || action=== 3">
-     <expantions  
-     icon="inventory_2" 
-     title="Pick Up" 
+     <expantions
+     icon="inventory_2"
+     title="Pick Up"
      bg="bg-primary"
-     
+
      >
-          <select_items 
-          v-model="selected_item" 
+          <select_items
+          v-model="selected_item"
           :filter_conditions="0" />
           <div v-if="selected_boxes.length > 0">
             <boxadd
-             v-for="(box, index) in selected_boxes" 
-            :key="index" 
-            :label="box.name" 
+             v-for="(box, index) in selected_boxes"
+            :key="index"
+            :label="box.name"
             :box="box.box"
              />
-            
+
           </div>
           <div v-if="new_boxes.length > 0">
-            <div class="row q-pt-md"  v-for="(box, index) in new_boxes" :key="index" >        
+            <div class="row q-pt-md"  v-for="(box, index) in new_boxes" :key="index" >
                   <boxes :box="box" :boxIndex="index + 1"/>
             </div>
             <div class="q-pt-md">
@@ -121,10 +121,10 @@ export default {
     action(action){
       this.showLabel='';
       console.log(action);
-     
+
     },
     selected_for_delivery(selected_for_delivery){
-      console.log(selected_for_delivery)
+      console.log('Delivery Select' , selected_for_delivery)
       if(selected_for_delivery.length > 0){
         selected_for_delivery.forEach(item =>{
           this.setForDelivery(item.id, item.name);
@@ -145,7 +145,7 @@ export default {
       }else{
         this.selected_boxes = [];
       }
-      
+
     }
   },
   components:{select_cities, expantions, select_items, boxadd, boxes, delivery},
@@ -157,12 +157,12 @@ export default {
         name,
         box
       }
-      
+
       let index = this.selected_boxes.findIndex(box => box.box.id === id);
       if(index===-1)this.selected_boxes.push(data);
-      
-      
-      
+
+
+
     },
     setForDelivery(id, name){
       let box = this.boxes.find(box => box.id === id);
@@ -178,10 +178,10 @@ export default {
         this.delivery_box.push(data);
       }
       console.log('delivery_box',this.delivery_box)
-      
-      
-      
-      
+
+
+
+
     },
     setNewBox(){
       let origin_code = this.boxes[this.boxes.length -1].origin_code;
@@ -194,7 +194,7 @@ export default {
        let data = {
          origin_code,
        }
-     
+
       this.$root.$emit('add_box', data)
       this.new_boxes.push(this.boxes[this.boxes.length -1]);
     },
@@ -207,16 +207,16 @@ export default {
         let ref = this.delivery.ref.find(destiny=>{
           return destiny.code === this.origin_code;
         })
-        
+
         this.stop.total =  ref.value + this.boxes.length;
         this.stop.delivery_code = this.delivery.code;
         this.delivery_code = this.delivery.code;
         console.log(this.delivery_code)
         //this.$emit('input', this.delivery_point)
-        
+
       },
   },
-  
+
   mounted() {
     console.log('Boxes',this.boxes);
     console.log('stopIndex',this.stopIndex);
