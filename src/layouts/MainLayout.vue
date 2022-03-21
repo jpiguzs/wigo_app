@@ -3,26 +3,26 @@
 
  <q-toolbar class="bg-white text-primary fixed z-top" style="top:0">
 
-  
+
       <q-btn flat round dense icon="menu" class="q-mr-sm" @click="$router.push('/budget')"/>
-      
+
        <q-btn flat   label=""  />
-        
+
         <!--<q-btn flat   label=""  />-->
         <!--<q-btn flat   label="" @click="$router.push('/budget')" />-->
-      
+
         <div v-if="!user" >
             <q-btn flat   label="login" @click="auth_to(1)" />
             <q-btn flat   label=""  />
             <q-btn flat  label="registro" @click="auth_to(2)" />
             <q-btn flat   label=""  />
-     
+
         </div>
 
 
         <div v-if="user" >
           <div class="text-uppercase">{{user.name}}</div>
-            
+
         </div>
          <q-btn v-if="user" flat label="salir" @click="logout()"/>
         <!--<q-btn v-if="user" flat label="Historial" @click="$router.push('/cotization')"/>-->
@@ -36,9 +36,9 @@
               </q-avatar>
 
             </router-link>
-      
+
     </q-toolbar>
-     
+
     <q-page-container>
       <router-view />
     </q-page-container>

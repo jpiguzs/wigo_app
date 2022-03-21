@@ -6,12 +6,12 @@
           </div> -->
     </div>
 
-    <div class="row text-black text-capitalize text-bold">
+    <div class="row text-white bg-primary text-capitalize text-bold">
         <div class="col-1">
 
       </div>
       <div class="col-4">
-
+          descripciòn
       </div>
 
       <div class="col-2">
@@ -26,7 +26,7 @@ Precio
 
     </div>
     <div v-for="(point, index) in points" :key="index" >
-        <q-card >
+        <q-card flat>
             <q-card-section  >
               <div class="row text-capitalize text-bold">
                 <div class="col-12 text-black ">
@@ -64,6 +64,13 @@ Precio
                     <td>{{ getFree(value) }}$</td>
 
                   </tr>
+                    <tr v-for="(value, index3) in point.pick" :key="index3">
+                    <td>{{"Pick"}}</td>
+                    <td>{{ value.width}}x{{value.height}}x{{value.length}}</td>
+                    <td>{{value.quantity}}</td>
+                    <td>0</td>
+
+                  </tr>
                 </tbody>
                  <!--<tfoot class="text-h7 text-uppercase">
                   <tr>
@@ -88,7 +95,7 @@ Precio
 
     <q-card >
 
-      <div class="row text-black text-bold">
+      <div class="row text-white bg-black text-bold">
         <div class="col-8">
 
         </div>
@@ -97,7 +104,7 @@ Precio
             {{'Total: $ '}} {{total.toFixed(2)}}
         </div>
       </div>
-       <div class="row text-black text-bold">
+       <div class="row text-white bg-black text-bold">
         <div class="col-8">
 
         </div>
@@ -137,21 +144,41 @@ export default {
         console.log(point)
         let description = this.getNameCity(point.origin_code)+' / '+this.getNameCity(point.delivery_code);
         let boxes = [];
+        let pick = [];
         this.boxes.forEach(box=>{
-          console.log(box)
-          let box_found = box.values.find(val=> val.code === point.delivery_code);
+          console.log(box, 'caja')
+          console.log(point)
+          let box_found = box.values.filter(val=> val.code === point.id);
+          let pickup_found = box.pickup.filter(pick=> pick.pick_code === point.id);
           let box_description = 'Caja '+ (box.id+1);
-
-          if(box_found){
-             let data = {
+          console.log(box_found, 'found');
+          if(box_found.length > 0){
+            box_found.forEach(bx=>{
+              let data = {
             description: box_description,
-            quantity: box_found.val,
+            quantity: bx.val,
             width:box.width,
             height:box.height,
             length:box.length,
-            price:box.total
+            price:(((parseInt(box.width)*parseInt(box.height)*parseInt(box.length))/4400)*parseInt(bx.val))*0.05,
           }
           boxes.push(data);
+            })
+
+          }
+          if(pickup_found.length > 0){
+            pickup_found.forEach(pic=>{
+              let pickupp = {
+              description:box_description,
+              quantity:pic.quantity,
+              width:box.width,
+              height:box.height,
+              length:box.length,
+
+            }
+            pick.push(pickupp)
+            })
+
           }
 
 
@@ -160,7 +187,8 @@ export default {
           description:description,
           description1:this.getNameCity(point.origin_code),
           description2:this.getNameCity(point.delivery_code),
-          boxes:boxes
+          boxes:boxes,
+          pick:pick,
         }
           this.points.push(data2)
 
@@ -206,6 +234,7 @@ export default {
           if(gratis=== (parseInt(value.width)*parseInt(value.height)*parseInt(value.length))/4400){
             return 0;
           }
+
           return value.price.toFixed(2);
           //this.showWigo=false;
        }

@@ -18,6 +18,7 @@ export const CreateBox = (origin_code=null)=>{
         max:0,
         max_leftover:0,
         notify:Notify,
+        pickup:[],
         purgeValues: function () {
           let values = this.values.filter(val =>  parseInt(val.val=== 0))
           values.forEach(val =>{
@@ -35,17 +36,17 @@ export const CreateBox = (origin_code=null)=>{
           let total = 0;
           this.values.forEach(val=>{
             console.log(val.val)
-            total += parseInt(val.val) 
+            total += parseInt(val.val)
           })
-          
+
           this.max_leftover = this.max - total;
-          
+
         },
         setValidate: function () {
-          this.delivery_validate= true; 
+          this.delivery_validate= true;
           if(this.max_leftover!=0){
             this.delivery_validate = false;
-             this.notify({
+             this.notify.create({
                 message: "tienes cajas por llenar",
                 color: "red",
                 position: "right",
@@ -56,20 +57,20 @@ export const CreateBox = (origin_code=null)=>{
             console.log(val)
             if(val.code === null){
               this.delivery_validate = false;
-               this.notify({
+               this.notify.create({
                 message: "debes selecionar todos sitios",
                 color: "red",
                 position: "right",
               });
             }
-          
+
           })
-            
+
           }
-          
-          
+
+
         },
-        
+
       }
       return box;
 

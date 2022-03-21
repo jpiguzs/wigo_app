@@ -31,12 +31,14 @@
 </template>
 
 <script>
+import {CreateId,} from '../../utilities/utilitiesFunctions';
 export default {
   // name: 'ComponentName',
   data () {
     return {
       quantity:0,
-      showDescripcion:false
+      showDescripcion:false,
+      item_number:null
     }
   },
   props:{box: {
@@ -45,8 +47,11 @@ export default {
         return { id: null, height: null,   width:null, length:null, total:0 , validate:false, max:0, max_leftover:0};
       }
     },
-    boxIndex:null},
+    boxIndex:null,
+
+    pick_code:null},
     methods: {
+      CreateId,
       GetTotal(){
 
         let gratis=0.45454545454545453;
@@ -61,6 +66,7 @@ export default {
        }
 
         this.box.max_leftover = this.box.max
+        this.box.pickup[this.item_number].quantity = this.box.max;
       },
       remove(id){
         this.$root.$emit('delete_box', id)
@@ -75,6 +81,18 @@ export default {
         document.getElementById(e.target.id).select()
 
       },
+    },
+    mounted() {
+
+      let data = {
+        quantity:0,
+        box_id:this.box.id,
+        pick_code:this.pick_code,
+        id:this.CreateId(),
+
+      }
+      let index = this.box.pickup.push(data);
+      this.item_number = (index - 1)
     },
 }
 </script>

@@ -6,7 +6,10 @@
   :title="'Parada '+ stopIndex "
   bg="bg-green"
   :default_opened="stopIndex === 1 ? true : false"
+  :showClose="true"
+  :stop_id="stop.id"
   >
+
 
     <div>
       <select_cities v-model="delivery" :emit_value="false" />
@@ -43,7 +46,7 @@
               :key="index"
               :label="box.name"
               :box="box.box"
-              :delivery_code="delivery_code"
+              :delivery_code="stop.id"
               />
           </div>
      </expantions>
@@ -60,6 +63,7 @@
           :filter_conditions="0" />
           <div v-if="selected_boxes.length > 0">
             <boxadd
+            :pick_code="stop.id"
              v-for="(box, index) in selected_boxes"
             :key="index"
             :label="box.name"
@@ -69,7 +73,7 @@
           </div>
           <div v-if="new_boxes.length > 0">
             <div class="row q-pt-md"  v-for="(box, index) in new_boxes" :key="index" >
-                  <boxes :box="box" :boxIndex="index + 1"/>
+                  <boxes :box="box" :boxIndex="index + 1" :pick_code="stop.id"/>
             </div>
             <div class="q-pt-md">
               <q-btn color="blue" icon="add" round @click="AddBox"/>
@@ -78,6 +82,7 @@
      </expantions>
     </div>
    </expantions>
+
   </div>
 </template>
 
@@ -87,7 +92,7 @@ import {items} from '../../status/items.js'
 import expantions from 'components/commons/Expantions'
 import select_items from './Select-items'
 import boxadd from './AddQuantityBox'
-import { CreateBox } from '../../utilities/utilitiesFunctions';
+import { CreateBox, CreateId } from '../../utilities/utilitiesFunctions';
 import boxes from './Boxes'
 import delivery from './Delivery'
 export default {
@@ -103,7 +108,8 @@ export default {
       delivery_box:[],
       selected_for_delivery: [],
       delivery_code: null,
-      showLabel:'Delivery/Pick up'
+      showLabel:'Delivery/Pick up',
+      id_stop:null,
     }
   },
   props:['boxes', 'stopIndex', 'stop', 'origin_code'],
@@ -131,8 +137,42 @@ export default {
         })
       }
     },
-    selected_item(selected_item){
+    selected_item(selected_item, old_selected_item){
       console.log(selected_item)
+      //for action 1
+      if(old_selected_item){
+        let oldIndex = old_selected_item.findIndex(item => item.actions === 1 );
+
+        let actionIsNewBox = false
+        if(oldIndex!=-1) {
+        //if actions 1 in found will check if still exist inside of select item
+          let newIndex = selected_item.findIndex(item => item.actions ===1);
+        //if this not exist will return true
+          actionIsNewBox = newIndex ===-1 ? true : false;
+        }
+        if(actionIsNewBox){
+          this.removeAllBoxes();
+        }
+
+      }
+       if(old_selected_item){
+        let oldIndexN = old_selected_item.findIndex(item => item.actions === 3 );
+
+        let actionIsSelectBox = false
+        if(oldIndexN!=-1) {
+        //if actions 1 in found will check if still exist inside of select item
+          let newIndexN = selected_item.findIndex(item => item.actions ===3);
+        //if this not exist will return true
+          actionIsSelectBox= newIndexN ===-1 ? true : false;
+        }
+        if(actionIsSelectBox){
+          this.selected_boxes = [];
+        }
+
+      }
+      // check if old action contains a "create new box"
+
+
       if(selected_item.length > 0){
 
         selected_item.forEach(item=>{
@@ -151,6 +191,7 @@ export default {
   components:{select_cities, expantions, select_items, boxadd, boxes, delivery},
   methods: {
     CreateBox,
+    CreateId,
     SetSelectedboxes(id, name){
       let box = this.boxes.find(box => box.id === id);
       let data = {
@@ -184,10 +225,13 @@ export default {
 
     },
     setNewBox(){
-      let origin_code = this.boxes[this.boxes.length -1].origin_code;
-      let new_box = this.CreateBox(origin_code);
-      this.boxes.push(new_box);
-      this.new_boxes.push(this.boxes[this.boxes.length -1]);
+      if(this.new_boxes.length ===0){
+         let origin_code = this.boxes[this.boxes.length -1].origin_code;
+        let new_box = this.CreateBox(origin_code);
+        this.boxes.push(new_box);
+        this.new_boxes.push(this.boxes[this.boxes.length -1]);
+      }
+
     },
     AddBox(){
       let origin_code = this.boxes[this.boxes.length -1].origin_code;
@@ -200,7 +244,8 @@ export default {
     },
     remove(id){
       let boxIndex = this.new_boxes.findIndex(box => box.id === id);
-      this.new_boxes.splice(boxIndex, 1);
+      if(boxIndex !=-1)  this.new_boxes.splice(boxIndex, 1);
+
     },
       getTotal(){
         console.log(this.origin_code)
@@ -208,23 +253,34 @@ export default {
           return destiny.code === this.origin_code;
         })
 
-        this.stop.total =  ref.value + this.boxes.length;
+        this.stop.total =  ref.value;
         this.stop.delivery_code = this.delivery.code;
         this.delivery_code = this.delivery.code;
         console.log(this.delivery_code)
         //this.$emit('input', this.delivery_point)
 
       },
+      removeAllBoxes(){
+
+        let idsForDelete = this.new_boxes.map(box=>{
+          return box.id;
+          //console.log(idsForDelete)
+          //this.$root.$emit('delete_box', box.id);
+        })
+        idsForDelete.forEach(boxid=>{
+          this.$root.$emit('delete_box', boxid);
+        })
+      }
   },
 
   mounted() {
-    console.log('Boxes',this.boxes);
+    /*console.log('Boxes',this.boxes);
     console.log('stopIndex',this.stopIndex);
     console.log('stop',this.stop);
     console.log('origin_code',this.origin_code);
 
-    console.log('Items',this.items);
-
+    console.log('Items',this.items);*/
+    this.id_stop = this.CreateId();
 
     this.$root.$on('delete_box',(id)=>{
       this.remove(id)

@@ -1,10 +1,10 @@
 <template>
   <div class="q-mt-xl flex flex-center" >
-  <q-card class="auth__card card-top">
+  <q-card class="auth__card card-top " flat>
     <transition enter-active-class="animate__animated animate__backInLeft"   >
      <q-card-section v-show="step===1" >
-      <origin  
-      :boxes="boxes" 
+      <origin
+      :boxes="boxes"
       v-model="origin_code"
       @selectedItems="SelectedItems"
       />
@@ -13,18 +13,24 @@
 
 
     <transition enter-active-class="animate__animated animate__backInLeft"  >
-        <q-card-section v-show="step===2">
+        <q-card-section class="q-pa-none" v-show="step===2">
             <div v-if="stops.length > 0" >
-              <stops class="q-mt-md" :origin_code="origin_code" :boxes="boxes" v-for="(stop, index) in stops" :stop="stop" :stopIndex='index + 1' :key="index" />
+              <stops class="q-mt-md min-width--costume"
+              :origin_code="origin_code"
+              :boxes="boxes"
+              v-for="(stop, index) in stops"
+              :stop="stop"
+              :stopIndex='index + 1'
+              :key="stop.id" />
             </div>
             <div class="row items-start text-center w  q-mt-md" >
               <div class="col-12">
                   <q-btn color="blue" icon="add" round @click="AddStops"/>
               </div>
-                
+
               <div class="text-h6 col-12">Paradas</div>
             </div>
-            
+
         </q-card-section>
      </transition>
      <transition enter-active-class="animate__animated animate__backInLeft"  >
@@ -35,11 +41,11 @@
 
 
      <q-card-actions>
-     
+
       <stepsBtn v-if="boxes.length > 0" :nextFunction="test" v-model="step" :back="back"/>
      </q-card-actions>
   </q-card>
-  
+
   </div>
 </template>
 
@@ -73,22 +79,39 @@ export default {
     CreateId,
     CreateBox,
     SelectedItems(data){
-     
+
       if(data.selected_item.length > 0){
         data.selected_item.forEach(items=>{
           if(items.actions === 1){
            this.AddBox(data)
           }
         })
-        
-        
+
+
       }
       else{
         this.boxes= []
-        
+
       }
 
-     
+
+
+    },
+    removeStop(id){
+      if(this.stops.length > 1){
+        let index = this.stops.findIndex(stop =>stop.id===id);
+        console.log(this.stops)
+        console.log(id)
+        console.log(this.stops[index])
+        this.stops.splice(index, 1);
+      }else{
+         this.$q.notify({
+          message: "No puede eliminar esta parada dado que solo queda una",
+          color: "red",
+          position: "right",
+        });
+        return;
+      }
 
     },
       AddStops(){
@@ -103,13 +126,13 @@ export default {
 
       },
     remove(id){
-      
+
       if(this.boxes.length > 1){
         let boxIndex = this.boxes.findIndex(box => box.id === id);
         this.boxes.splice(boxIndex, 1);
         this.$store.commit('budget/REMOVE_ITEM',id);
-       
-      
+
+
       }else{
          this.$q.notify({
           message: "No puede eliminar esta caja dado que solo queda una",
@@ -120,16 +143,24 @@ export default {
       }
     },
     AddBox(data){
-      
+
        let box = this.CreateBox(data.origin_code);
         this.boxes.push(box)
     },
     test(){
-      if(this.step===1) this.next();
-      if(this.step===2) this.getTotal();
+
+
+      if(this.step===1) {
+        this.next()
+        }
+      else if(this.step===2){
+        this.getTotal();
+      };
+
     },
     next(){
       //let total = 0;
+
       let index = this.boxes.findIndex(box =>{
        return box.validate === false;
       })
@@ -142,10 +173,10 @@ export default {
         return;
       }
 
-      
-      
+
+
       this.setItemsTolist()
-      this.step++;
+      this.step=2;
       if(this.step === 2 && this.stops.length === 0){
         this.AddStops()
       }
@@ -154,11 +185,11 @@ export default {
       if(this.step > 1){
         this.step--;
       }
-      
+
     },
     setItemsTolist(){
       this.boxes.forEach((box, index) =>{
-        let name = 'caja'+(index+1) +  '  ' +box.width + 'cm x' + ' '+box.height+ 'cm x' + ' '+ box.length+ 'cm' 
+        let name = 'caja'+(index+1) +  '  ' +box.width + 'cm x' + ' '+box.height+ 'cm x' + ' '+ box.length+ 'cm'
         let data = {
           name:name,
           id: box.id,
@@ -172,7 +203,7 @@ export default {
       this.total_boxes = 0;
       this.total = 0;
        let total = 0;
-      
+
         this.boxes.forEach(box=>{
         box.purgeValues();
         box.getQuantity();
@@ -185,29 +216,29 @@ export default {
        return box.delivery_validate === false;
       })
       if(index!=-1){
-        
+
         return;
       }*/
       //console.log(total)
       let total_pick = 0;
-      this.stops.forEach(point=>{
-        console.log(point)
-        total_pick =total_pick + point.total;
+      let total_array = this.stops.map(point=>{
+      return point.total
       })
-      
-     
-      total_pick  = total_pick + (1*this.stops.length);
-      this.total_pick = total_pick;
+      total_pick = Math.max(...total_array);
+
+
+      total_pick  = total_pick + (2*(this.stops.length));
+      this.total_pick = total_pick - 1;
 
       this.total_boxes = total > 140 ? total * 0.05 : 7;
       this.total_boxes = this.total_boxes.toFixed(2);
-     
-   
+
+
         this.percentage = ((1800000/4400)*100)/400;
         this.total_boxes = (1800000/4400)*0.05;
         console.log(this.total_boxes, 'total de cajas')
         this.total_boxes = this.total_boxes.toFixed(2)
-      
+
       //this.percentage = this.percentage.toFixed(2);
       //this.truck_quantity = this.percentage/100 > 0 ? this.percentage/100 : 1 ;
       this.total = parseFloat(this.total_boxes) + parseFloat (this.total_pick.toFixed(2));
@@ -224,7 +255,15 @@ export default {
     this.$root.$on('add_box',(data)=>{
       this.AddBox(data);
     })
-    
+    this.$root.$on('delete_this_stop', (id)=>{
+      this.removeStop(id)
+    })
+
   }
 }
 </script>
+<style>
+.min-width--costume{
+  min-width: 100%;
+}
+</style>

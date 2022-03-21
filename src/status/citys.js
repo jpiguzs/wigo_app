@@ -4,41 +4,49 @@ export const city = [
         code:'bar',
         ref:[{
             code:"lech",
-            value:1.5
+            value:2
         },
         {
             code:"plc",
-            value:1.5
+            value:4
         },
         {
             code:"guan",
-            value:3
+            value:6
         },
         {
             code:"bar",
             value:0
         },
+        {
+          code:"jo",
+          value:14
+      },
     ]
     },
     {
-        name:'Puerto la cruz',
+        name:'Pto la cruz',
         code:'plc',
         ref:[{
             code:"lech",
-            value:1.5
+            value:2
         },
         {
             code:"bar",
-            value:1.5
+            value:4
         },
         {
             code:"guan",
-            value:3
+            value:2
         },
         {
             code:"plc",
             value:0
         },
+        {
+          code:"jo",
+          value:18
+      },
     ],
     },
     {
@@ -46,20 +54,24 @@ export const city = [
         code:'lech',
         ref:[{
             code:"bar",
-            value:1.5
+            value:2
         },
         {
             code:"plc",
-            value:1.5
+            value:2
         },
         {
             code:"guan",
-            value:3
+            value:4
         },
         {
             code:"lech",
             value:0
         },
+        {
+          code:"jo",
+          value:16
+      },
     ]
     },
     {
@@ -67,20 +79,49 @@ export const city = [
         code:'guan',
         ref:[{
             code:"lech",
-            value:3
+            value:4
         },
         {
             code:"plc",
-            value:3
+            value:2
         },
         {
             code:"bar",
-            value:3
+            value:60
         },
         {
             code:"guan",
             value:0
         },
+        {
+          code:"jo",
+          value:20
+      },
     ]
-    }
+    },
+    {
+      name:'Jose',
+      code:'jo',
+      ref:[{
+          code:"lech",
+          value:16
+      },
+      {
+          code:"plc",
+          value:18
+      },
+      {
+          code:"bar",
+          value:14
+      },
+      {
+          code:"guan",
+          value:20
+      },
+      {
+        code:"jo",
+        value:0
+    },
+  ]
+  }
 ]
