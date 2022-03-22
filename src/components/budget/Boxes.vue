@@ -1,5 +1,5 @@
 <template>
-  <div class="q-ml-sm col-12 row">
+  <div class="q-ml-sm col-12 row" v-on:blur="GetTotal">
 
      <!-- <div class="text-center row text-h6">
          <div class="col-11">
@@ -43,6 +43,7 @@ export default {
     }, boxIndex:null},
     methods: {
       GetTotal(){
+        alert();
         //this.box.total = ((this.box.height * this.box.width * this.box.length)/4400)* this.quantity;
         if(this.box.height!= null && this.box.width != null && this.box.length != null ){
           this.box.validate= true;
@@ -53,7 +54,7 @@ export default {
         this.$emit('deleteThis',this.box.id)
       },
       focusGet(e){
-        console.log(e.target);
+
         document.getElementById(e.target.id).select()
       }
     },

@@ -1,5 +1,5 @@
 <template>
-  <div class="q-ml-sm col-12 row">
+  <div class="q-ml-sm col-12 row" v-on:blur="GetTotal">
 
       <div class="col-10" >
         <div class="text-center  full bg-white text-primary"> Caja {{boxIndex }} </div>
@@ -76,8 +76,7 @@ export default {
     },
 
       focusGet(e){
-          console.log('entro aqui focus')
-        console.log(e.target);
+
         document.getElementById(e.target.id).select()
 
       },

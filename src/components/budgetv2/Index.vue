@@ -100,9 +100,7 @@ export default {
     removeStop(id){
       if(this.stops.length > 1){
         let index = this.stops.findIndex(stop =>stop.id===id);
-        console.log(this.stops)
-        console.log(id)
-        console.log(this.stops[index])
+
         this.stops.splice(index, 1);
       }else{
          this.$q.notify({
@@ -257,6 +255,9 @@ export default {
     })
     this.$root.$on('delete_this_stop', (id)=>{
       this.removeStop(id)
+    })
+    this.$root.$on('setItemsToList', ()=>{
+      this.setItemsTolist()
     })
 
   }
